@@ -76,7 +76,7 @@
           مهارت‌هات رو در کنار برنامه‌نویس‌های خوب ایرانی محک بزن، رقابت کن،
           جایزه بگیر و سریع‌تر استخدام شو!
         </p>
-        <a href="#" class="header-info-a">عضو شوید</a>
+        <a href="#" @click="rbtnClick" class="header-info-a">عضو شوید</a>
       </div>
       <!-- End of header info -->
     </div>
