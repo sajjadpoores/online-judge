@@ -7,17 +7,20 @@
             <span @click="rCloseBtnClick" id="rCloseBtn" class="close-btn">&times;</span>
             <form class="modalForm" action="">
                 <div class="form-group">
-                    <i class="fa fa-user"></i>
+                    <!-- <i class="fa fa-user"></i> -->
+                    <font-awesome-icon icon="user" class="form-icon"/>
                     <input type="text" placeholder="نام کاربری">
                 </div>
 
                 <div class="form-group">
-                    <i class="fa  fa-envelope"></i>
+                    <!-- <i class="fa  fa-envelope"></i> -->
+                    <font-awesome-icon icon="envelope" class="form-icon" />
                     <input type="email" placeholder="پست الکترونیک">
                 </div>
 
                 <div class="form-group">
-                    <i class="fa fa-lock"></i>
+                    <!-- <i class="fa fa-lock"></i> -->
+                    <font-awesome-icon icon="lock" class="form-icon" />
                     <input type="password" placeholder="کلمه عبور">
                 </div>
 
@@ -36,12 +39,14 @@
             <span @click="lCloseBtnClick" id="lCloseBtn" class="close-btn">&times;</span>
             <form class="modalForm" action="">
                 <div class="form-group">
-                    <i class="fa fa-user"></i>
+                    <!-- <i class="fa fa-user"></i> -->
+                    <font-awesome-icon icon="user" class="form-icon" />
                     <input type="text" placeholder="نام کاربری">
                 </div>
 
                 <div class="form-group">
-                    <i class="fa fa-lock"></i>
+                    <!-- <i class="fa fa-lock"></i> -->
+                    <font-awesome-icon icon="lock" class="form-icon" />
                     <input type="password" placeholder="کلمه عبور">
                 </div>
 
@@ -331,10 +336,11 @@ export default {
   border-radius: 5px;
 }
 
-.modalForm .form-group i {
+.modalForm .form-group .form-icon {
   position: absolute;
-  right: 3px;
-  padding: 4px;
+  right: 5px;
+  top: 8px;
+  padding: 3px;
   color: var(--green-blue);
 }
 
@@ -342,6 +348,7 @@ export default {
   padding: 4px 25px 4px 4px;
   text-align: center;
   width: 100%;
+  font-family: 'vazir', sans-serif;
 }
 
 .modalForm .form-group input[type='submit'] {
