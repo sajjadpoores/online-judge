@@ -1,31 +1,36 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <!-- <div id="nav"> -->
+      <!-- <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> -->
+    <!-- </div> -->
     <router-view/>
   </div>
 </template>
 
 <style>
+@font-face {
+  font-family: 'vazir';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/font/vazir/Vazir-FD.eot'); /* IE9 Compat Modes */
+  src: local('Vazir'), local('Vazir'),
+    url('./assets/font/vazir/Vazir-FD.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./assets/font//vazir/Vazir-FD.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('./assets/font//vazir/Vazir-FD.woff')
+      format('woff'),
+    /* Modern Browsers */ url('./assets/font//vazir/Vazir-FD.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
+  font-size: 1.6rem;
+  font-family: 'vazir', sans-serif;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

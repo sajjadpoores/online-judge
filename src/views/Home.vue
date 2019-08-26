@@ -148,19 +148,6 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: 'vazir';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../assets/font/vazir/Vazir-FD.eot'); /* IE9 Compat Modes */
-  src: local('Vazir'), local('Vazir'),
-    url('../assets/font/vazir/Vazir-FD.eot?#iefix') format('embedded-opentype'),
-    /* IE6-IE8 */ url('../assets/font//vazir/Vazir-FD.woff2') format('woff2'),
-    /* Super Modern Browsers */ url('../assets/font//vazir/Vazir-FD.woff')
-      format('woff'),
-    /* Modern Browsers */ url('../assets/font//vazir/Vazir-FD.ttf') format('truetype'); /* Safari, Android, iOS */
-}
-
 .home {
   color: var(--lightest);
   font-size: 1.6rem;
@@ -235,13 +222,13 @@ export default {
     text-align: center;
   }
 
-  .nav .nav-item {
-    /* flex-basis: 48%; */
+  /* .nav .nav-item {
+    flex-basis: 48%;
   }
 
   .nav .nav-item:nth-child(2) {
-    /* flex: 2; */
-  }
+    flex: 2;
+  } */
 }
 /* end of nav */
 
