@@ -10,8 +10,11 @@
                     <img src="@/assets/img/logo.png" alt="">
                 </div>
                 <div class="full-width-on-mobile nav-item dropdown">
-                    <span onclick="show_dropdown()" class="dropbtn flex-container-to-center">
-                        <i class="dropbtn fa fa-caret-down"></i>
+                    <span @click="show_dropdown"
+                    v-on-clickaway="close_dropdown"
+                     class="dropbtn flex-container-to-center">
+                        
+                        <font-awesome-icon icon="caret-down" class="dropbtn dropbtni" />
                         <span class="dropbtn">پروفایل</span>
                     </span>
                     <div id="myDropdown" class="dropdown-content">
@@ -27,7 +30,7 @@
                 <div class="full-width-on-mobile nav-item"><a href="#">مسابقات</a></div>
                 <div class="full-width-on-mobile nav-item"><a href="#">سوالات</a></div>
                 <div class="full-width-on-mobile nav-item"><a href="#">داشبورد</a></div>
-                <div class="nav-item rightside-menu-btn" @click="show_rmenu()">
+                <div class="nav-item rightside-menu-btn" @click="show_rmenu" v-on-clickaway="close_rmenu">
                     <svg width="30" height="30" class="opener_btn">
                         <path d="M0,5 30,5" class="opener_btn" stroke="#2e9cca" stroke-width="3" />
 
@@ -46,9 +49,17 @@
             <div class="mnav-item logo">
                 <img src="@/assets/img/logo.png" alt="">
             </div>
-            <div class="mnav-dropbtn mnav-item" onclick="show_mnav_items()">
+            <div class="mnav-dropbtn mnav-item" @click="show_mnav_items()">
                 <a href="#">
-                    <i id="arrow_i" class="fa fa-caret-down"></i>
+
+                    <font-awesome-icon 
+                    id="arrow_i_down"
+                    icon="caret-down"/>
+
+                    <font-awesome-icon 
+                    id="arrow_i_up"
+                    icon="caret-up"/>
+
                     <span>پروفایل</span>
 
                 </a>
@@ -92,7 +103,7 @@
         <!-- rightside menu **rmenu** -->
         <div class="rmenu" id="rmenu" v-on-clickaway="close_rmenu">
 
-            <div class="rmenu-close-btn" @click="close_rmenu()">
+            <div class="rmenu-close-btn" @click="close_rmenu">
                 &times;
             </div>
             <div class="rmenu-photo">
@@ -157,11 +168,41 @@ export default {
         },
         show_rmenu() {
             this.rmenu.style.width = "300px"
+        },
+        show_dropdown(){
+            document.getElementById("myDropdown").classList.toggle("show");
+        },
+        close_dropdown(){
+            if (!event.target.matches(".dropbtn")) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains("show")) {
+                    openDropdown.classList.remove("show");
+                }
+                }
+            }
+        },
+        show_mnav_items(){
+          if (this.mnav_drop_container.style.height === "100%") {
+              this.mnav_drop_container.style.height = "0"
+              this.mnav_drop_container.style.transform = "scaleY(0)"
+              document.getElementById('arrow_i_up').style.display = 'none'
+              document.getElementById('arrow_i_down').style.display = 'inline'
+          } else {
+              this.mnav_drop_container.style.height = "100%"
+              this.mnav_drop_container.style.transform = "scaleY(1)"
+              document.getElementById('arrow_i_up').style.display = 'inline'
+              document.getElementById('arrow_i_down').style.display = 'none'
+          }
+
+          // console.log(this.mnav_drop_container.style.height)
         }
     },
     mounted(){
         this.rmenu = document.getElementById('rmenu')
-        console.log(this.rmenu)
+        this.mnav_drop_container = document.getElementById("mnav-drop-container")
     }
 }
 </script>
@@ -178,11 +219,13 @@ body {
   --greenest: #86c232;
   --verylight-blue: #c4d7f2;
 
-  font-size: 1.4rem;
   font-family: "vazir", sans-serif;
   background-color: var(--dark-blue);
 }
 
+.dashboard {
+  font-size: 1.4rem;
+}
 /* general classes */
 
 /* container with elements being centered */
@@ -352,7 +395,7 @@ body {
   color: var(--greenest);
 }
 
-.dropbtn i {
+.dropbtn .dropbtni {
   display: block;
   float: right;
   margin-top: 9px;
@@ -361,6 +404,16 @@ body {
 
 .show {
   display: block;
+}
+
+#arrow_i_up{
+  display: none;
+  margin-right: 3px;
+}
+
+#arrow_i_down {
+  display: inline;
+  margin-right: 3px;
 }
 /* end of nav dropdown */
 
@@ -387,7 +440,8 @@ body {
 
 /* rmenu */
 .rmenu {
-  flex-basis: 250px;
+  /* #rmenu_width */
+  flex-basis: 270px;
   order: 1;
 
   direction: rtl;
@@ -401,6 +455,7 @@ body {
   flex-direction: column;
 
   border-radius: 10px 0 0 10px;
+  padding: 10px;
 }
 
 .rmenu .rmenu-close-btn {
