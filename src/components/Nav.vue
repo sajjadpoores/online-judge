@@ -137,7 +137,6 @@ export default {
         }
     },
     mounted(){
-        this.rmenu = document.getElementById('rmenu')
         this.mnav_drop_container = document.getElementById("mnav-drop-container")
     }
 }
