@@ -203,7 +203,7 @@ export default {
 }
 
 /* mobile size screen */
-@media screen and (max-width: 510px) {
+@media screen and (max-width: 545px) {
   .nav {
     flex-direction: column;
   }
@@ -323,7 +323,7 @@ export default {
 .mobile-nav {
   display: none;
 }
-@media screen and (max-width: 510px) {
+@media screen and (max-width: 545px) {
   .nav {
     display: none;
   }
