@@ -16,8 +16,12 @@
                         <span class="dropbtn">پروفایل</span>
                     </span>
                     <div id="myDropdown" class="dropdown-content">
-                        <div class="dropdown-item">پروفایل</div>
-                        <div class="dropdown-item">خروج</div>
+                        <div class="dropdown-item">
+                          <router-link to="/profile">پروفایل</router-link>
+                        </div>
+                        <div class="dropdown-item">
+                          <router-link to="/logout">خروج</router-link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -25,9 +29,15 @@
             <!-- second section of nav -->
             <div class="nav-second">
 
-                <div class="full-width-on-mobile nav-item"><a href="#">مسابقات</a></div>
-                <div class="full-width-on-mobile nav-item"><a href="#">سوالات</a></div>
-                <div class="full-width-on-mobile nav-item"><a href="#">داشبورد</a></div>
+                <div class="full-width-on-mobile nav-item">
+                  <router-link to="/problems">سوالات</router-link>
+                </div>
+                <div class="full-width-on-mobile nav-item">
+                <router-link to="/problems">مسابقات</router-link>
+                </div>
+                <div class="full-width-on-mobile nav-item">
+                  <router-link to="/dashboard">داشبورد</router-link>
+                  </div>
 
                 <div class="nav-item rightside-menu-btn" >
                   <svg width="30" height="30">
@@ -65,24 +75,24 @@
             </div>
             <div id="mnav-drop-container" class="mnav-drop-container">
                 <div class="mnav-drop-item">
-                    <a href="#">پروفایل</a>
+                    <router-link to="/profile">پروفایل</router-link>
                 </div>
                 <div class="mnav-drop-item">
-                    <a href="#">خروج</a>
+                    <router-link to="/logout">خروج</router-link>
                 </div>
             </div>
 
 
             <div class="mnav-item">
-                <a href="#">داشبورد</a>
+                <router-link to="/dashboard">داشبورد</router-link>
             </div>
 
             <div class="mnav-item">
-                <a href="#">سوالات</a>
+                <router-link to="/problems">سوالات</router-link>
             </div>
 
             <div class="mnav-item">
-                <a href="#">مسابقات</a>
+                <router-link to="/contests">مسابقات</router-link>
             </div>
 
         </nav>
@@ -284,8 +294,11 @@ export default {
   border-bottom: 1px solid var(--dark-blue);
   cursor: pointer;
   background-color: var(--light-blue);
-  color: var(--dark-blue);
   margin-top: 2px;
+}
+
+.dropdown-item a{
+  color: var(--dark-blue);
 }
 
 .dropdown-item:last-child {

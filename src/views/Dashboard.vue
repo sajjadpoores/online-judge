@@ -1,14 +1,5 @@
 <template>
   <div class="dashboard">
-      <!-- header -->
-    <header class="header">
-        <!-- nav -->
-        <Nav />
-        <!-- end of nav -->
-    </header>
-    <!-- end of header -->
-
-    <!-- main section -->
     <section class="main">
         <!-- rightside menu **rmenu** -->
         <Rmenu class="rmenu" />
@@ -25,16 +16,11 @@
 </template>
 
 <script>
-import { constants } from 'crypto';
-import { mixin as clickaway } from 'vue-clickaway'
-import Nav from '@/components/Nav.vue'
 import Rmenu from '@/components/Rmenu.vue'
 
 export default {
     name: "dashboard",
-    mixins: [ clickaway ],
     components: {
-      Nav,
       Rmenu
     },
 }
