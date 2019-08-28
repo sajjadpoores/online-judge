@@ -1,14 +1,15 @@
 <template>
-  <div class="rmenu-view">
       <!-- rightside menu **rmenu** -->
-        <div id="rmenu-toggler-div" class="rmenu-open-btn" @click="show_rmenu">
+        <div class="rmenu" id="rmenu" v-on-clickaway="close_rmenu">
+
+          <div id="rmenu-toggler-div" class="rmenu-open-btn" @click="show_rmenu">
                 <input id="rmenu-toggler-btn" type="checkbox" class="toggler">
           <div class="hamburger">
          <div></div>
           </div>
         </div>
 
-        <div class="rmenu" id="rmenu" v-on-clickaway="close_rmenu">
+
             <div class="rmenu-close-btn" @click="close_rmenu">
                 &times;
             </div>
@@ -42,7 +43,6 @@
 
         </div>
         <!-- end of rmenu -->
-  </div>
 </template>
 
 <script>
@@ -62,7 +62,7 @@ export default {
       close_rmenu(event) {
           // if user hasnt click on open rmenu button , close the rmenu
           if(event.target !== this.rmenuTogglerBtn){
-              this.rmenu.style.width = "0px"
+              this.rmenu.style.width = "0px"  
               this.rmenuTogglerDiv.style.opacity = "1"
           }
       },
@@ -80,24 +80,23 @@ export default {
 </script>
 
 <style scoped>
+#rmenu-view{
+  width: 300px;
+}
 /* rmenu */
 .rmenu {
-  /* #rmenu_width */
-  flex-basis: 270px;
-  order: 1;
-
   direction: rtl;
   font-size: 1.3rem;
-  z-index: 1;
   background-color: var(--gray-blue);
-  overflow: hidden;
   color: var(--light-blue);
+  border-radius: 10px;
+  z-index: 1;
 
   display: flex;
   flex-direction: column;
 
-  border-radius: 10px 0 0 10px;
-  padding: 10px;
+
+  overflow: hidden;
 }
 
 .rmenu .rmenu-close-btn {
@@ -173,9 +172,6 @@ export default {
     display: block;
   }
 
-  .main-content {
-    flex-basis: 100%;
-  }
 }
 /* end of rmenu */
 
@@ -190,7 +186,7 @@ export default {
 
 .rmenu-open-btn .toggler {
    position: absolute;
-   top: 5px;
+   top: 12px;
    right: 0;
    cursor: pointer;
    z-index: 2;

@@ -147,6 +147,9 @@ export default {
 .nav {
   display: flex;
   color: var(--light-blue) !important;
+
+  font-size: 1.4rem;
+  font-family: 'vazir', sans-serif;
 }
 
 .nav-first {
@@ -332,6 +335,8 @@ export default {
     display: flex;
     flex-direction: column;
     text-align: center;
+    font-size: 1.4rem;
+    font-family: 'vazir', sans-serif;
   }
 
   .mnav-item {
