@@ -1,12 +1,12 @@
 <template>
-  <div class="problems-view">
-    <!-- problems-view-header -->
-    <div class="problems-view-header">
-        <span>پروفایل</span>
+  <div class="contests-view">
+    <!-- contests-view-header -->
+    <div class="contests-view-header">
+        <span>مسابقات</span>
     </div>
 
 
-    <!-- problems table head -->
+    <!-- contests table head -->
     <div class="p-head">
         <span class="p-thin-item">
             #
@@ -17,36 +17,36 @@
         </span>
 
         <span class="p-wide-item">
-            برچسب
+            تاریخ شروع
         </span>
 
         <span class="p-item">
-            تعداد حل
+            تاریخ پایان
         </span>
 
         <span class="p-thin-item"></span>
     </div>
-    <!-- end of problems table head -->
+    <!-- end of contests table head -->
 
-    <!-- problems table body -->
+    <!-- contests table body -->
     <div class="p-body">
         <div class="p-row">
             <span class="p-thin-item">1</span>
 
             <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
+            <a href="#">مقدماتی جام جهانی</a></span
             >
 
             <span class="p-wide-item">
-            بازگشتی
+            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
             <span class="p-item">
-            120
+            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="check"></font-awesome-icon>
+                <font-awesome-icon icon="edit"></font-awesome-icon>
             </span>
         </div>
 
@@ -54,19 +54,19 @@
             <span class="p-thin-item">1</span>
 
             <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
+            <a href="#">مقدماتی جام جهانی</a></span
             >
 
             <span class="p-wide-item">
-            بازگشتی
+            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
             <span class="p-item">
-            120
+            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="check"></font-awesome-icon>
+                <font-awesome-icon icon="edit"></font-awesome-icon>
             </span>
         </div>
 
@@ -74,19 +74,19 @@
             <span class="p-thin-item">1</span>
 
             <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a>
-            </span>
+            <a href="#">مقدماتی جام جهانی</a></span
+            >
 
             <span class="p-wide-item">
-            بازگشتی
+            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
             <span class="p-item">
-            120
+            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="times"></font-awesome-icon>
+                <font-awesome-icon icon="edit"></font-awesome-icon>
             </span>
         </div>
 
@@ -94,19 +94,19 @@
             <span class="p-thin-item">1</span>
 
             <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
+            <a href="#">مقدماتی جام جهانی</a></span
             >
 
             <span class="p-wide-item">
-            بازگشتی
+            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
             <span class="p-item">
-            120
+            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="check"></font-awesome-icon>
+                <font-awesome-icon icon="edit"></font-awesome-icon>
             </span>
         </div>
 
@@ -114,19 +114,19 @@
             <span class="p-thin-item">1</span>
 
             <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
+            <a href="#">مقدماتی جام جهانی</a></span
             >
 
             <span class="p-wide-item">
-            بازگشتی
+            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
             <span class="p-item">
-            120
+            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="check"></font-awesome-icon>
+                <font-awesome-icon icon="edit"></font-awesome-icon>
             </span>
         </div>
 
@@ -134,19 +134,19 @@
             <span class="p-thin-item">1</span>
 
             <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
+            <a href="#">مقدماتی جام جهانی</a></span
             >
 
             <span class="p-wide-item">
-            بازگشتی
+            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
             <span class="p-item">
-            120
+            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="times"></font-awesome-icon>
+                <font-awesome-icon icon="edit"></font-awesome-icon>
             </span>
         </div>
 
@@ -168,13 +168,13 @@
             <p class="pagination-info">۲۰ از ۴۲۰ سوال</p>
         </div>
     </div>
-    <!-- end of problems table body -->
+    <!-- end of contests table body -->      
   </div>
 </template>
 
 <script>
 export default {
-    name: "problems"
+    name: "contests"
 }
 </script>
 
@@ -188,8 +188,8 @@ export default {
   color: red;
 }
 
-/* problems header */
-.problems-view-header{
+/* contests header */
+.contests-view-header{
     direction: rtl;
     color: var(--dark-blue);
     background-color: var(--light-gray);
@@ -197,10 +197,10 @@ export default {
     padding: 5px 20px;
     margin-bottom: 10px;
 }
-/* end of problems header */
+/* end of contests header */
 
-/* problems */
-.problems-view {
+/* contests */
+.contests-view {
   font-size: 1.2rem;
 }
 
@@ -307,6 +307,6 @@ export default {
 }
 /* end of pagination */
 
-/* end of problems */
+/* end of contests */
 
 </style>

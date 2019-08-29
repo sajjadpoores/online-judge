@@ -5,6 +5,7 @@ import MainView from './views/Main-view.vue'
 import Dashboard from './views/Dashboard.vue'
 import Profile from './views/Profile.vue'
 import Problems from './views/Problems.vue'
+import Contests from './views/Contests.vue'
 import Test from './views/Test.vue'
 Vue.use(Router)
 
@@ -31,6 +32,11 @@ export default new Router({
               path: '/problems',
               name: 'problems',
               component: Problems
+            },
+            {
+              path: '/contests',
+              name: 'contests',
+              component: Contests
             }
           ]
         },

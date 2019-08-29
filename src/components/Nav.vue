@@ -33,7 +33,7 @@
                   <router-link to="/problems">سوالات</router-link>
                 </div>
                 <div class="full-width-on-mobile nav-item">
-                <router-link to="/problems">مسابقات</router-link>
+                <router-link to="/contests">مسابقات</router-link>
                 </div>
                 <div class="full-width-on-mobile nav-item">
                   <router-link to="/dashboard">داشبورد</router-link>
