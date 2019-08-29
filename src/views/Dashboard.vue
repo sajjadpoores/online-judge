@@ -7,7 +7,7 @@
 
         <!-- main content -->
         <div class="main-content">
-            this is main content
+            <router-view />
         </div>
         <!-- end of main content -->
     </section>
@@ -61,7 +61,6 @@ export default {
 /* end of main section */
 
 /* main content */
-flex-
 .main-content {
   flex-basis: calc(100% - 300px);
   margin: 0 auto;
