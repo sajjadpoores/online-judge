@@ -28,5 +28,18 @@ export default {
 </script>
 
 <style>
+body {
+  --dark-blue: #25274d;
+  --gray-blue: #464866;
+  --light-gray: #aaabb8;
+  --light-blue: #2e9cca;
+  --medium-light-blue: #71c1ed;
+  --medium-blue: #29648a;
+  --greenest: #86c232;
+  --verylight-blue: #c4d7f2;
+
+  font-family: "vazir", sans-serif;
+  background-color: var(--dark-blue);
+}
 
 </style>

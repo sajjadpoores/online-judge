@@ -9,7 +9,8 @@ import {
   faLock,
   faEnvelope,
   faCaretDown,
-  faCaretUp
+  faCaretUp,
+  faEdit
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -18,6 +19,7 @@ library.add(faLock)
 library.add(faEnvelope)
 library.add(faCaretDown)
 library.add(faCaretUp)
+library.add(faEdit)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
