@@ -174,18 +174,19 @@
 
 <script>
 export default {
-    name: "contests"
+    name: "contests",
 }
 </script>
 
 <style scoped>
 /* font-awesome styling */
-.fa-check {
-  color: var(--greenest);
+.fa-user-plus {
+    color: var(--greenest);
+    cursor: pointer;
 }
 
-.fa-times {
-  color: red;
+.fa-user-plus:hover{
+    color: white;
 }
 
 /* contests header */
