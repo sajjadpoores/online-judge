@@ -7,6 +7,7 @@ import Profile from './views/Profile.vue'
 import Problems from './views/Problems.vue'
 import Problem from './views/Problem.vue'
 import Contests from './views/Contests.vue'
+import Contest from './views/Contest.vue'
 import Test from './views/Test.vue'
 Vue.use(Router)
 
@@ -35,14 +36,19 @@ export default new Router({
               component: Problems
             },
             {
+              path: '/problem/:pid',
+              name: 'problem',
+              component: Problem
+            },
+            {
               path: '/contests',
               name: 'contests',
               component: Contests
             },
             {
-              path: '/problem/:pid',
-              name: 'problem',
-              component: Problem
+              path: '/contest/:cid',
+              name: 'contest',
+              component: Contest
             }
           ]
         },

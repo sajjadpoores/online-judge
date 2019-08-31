@@ -98,6 +98,8 @@ export default {
 
   background-color: rgba(255, 255, 255, 0.1);
   padding: 8px;
+  padding-top: 1px;
+  border-radius: 5px;
 }
 
 .p-title {
