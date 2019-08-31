@@ -14,7 +14,8 @@ import {
   faCheck,
   faTimes,
   faAngleLeft,
-  faAngleRight
+  faAngleRight,
+  faUserPlus
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -28,6 +29,7 @@ library.add(faCheck)
 library.add(faTimes)
 library.add(faAngleLeft)
 library.add(faAngleRight)
+library.add(faUserPlus)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

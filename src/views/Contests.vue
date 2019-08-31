@@ -46,7 +46,7 @@
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="edit"></font-awesome-icon>
+                <font-awesome-icon icon="user-plus"></font-awesome-icon>
             </span>
         </div>
 
@@ -66,7 +66,7 @@
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="edit"></font-awesome-icon>
+                <font-awesome-icon icon="user-plus"></font-awesome-icon>
             </span>
         </div>
 
@@ -86,7 +86,7 @@
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="edit"></font-awesome-icon>
+                <font-awesome-icon icon="user-plus"></font-awesome-icon>
             </span>
         </div>
 
@@ -106,7 +106,7 @@
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="edit"></font-awesome-icon>
+                <font-awesome-icon icon="user-plus"></font-awesome-icon>
             </span>
         </div>
 
@@ -126,7 +126,7 @@
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="edit"></font-awesome-icon>
+                <font-awesome-icon icon="user-plus"></font-awesome-icon>
             </span>
         </div>
 
@@ -146,7 +146,7 @@
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="edit"></font-awesome-icon>
+                <font-awesome-icon icon="user-plus"></font-awesome-icon>
             </span>
         </div>
 
