@@ -12,7 +12,7 @@
             #
         </span>
 
-        <span class="p-wide-item">
+        <span class="p-item">
             عنوان
         </span>
 
@@ -20,7 +20,7 @@
             تاریخ شروع
         </span>
 
-        <span class="p-item">
+        <span class="p-wide-item">
             تاریخ پایان
         </span>
 
@@ -33,7 +33,7 @@
         <div class="p-row">
             <span class="p-thin-item">1</span>
 
-            <span class="p-wide-item">
+            <span class="p-item">
             <a href="#">مقدماتی جام جهانی</a></span
             >
 
@@ -41,7 +41,7 @@
             ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
-            <span class="p-item">
+            <span class="p-wide-item">
             ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
@@ -53,7 +53,7 @@
         <div class="p-row">
             <span class="p-thin-item">1</span>
 
-            <span class="p-wide-item">
+            <span class="p-item">
             <a href="#">مقدماتی جام جهانی</a></span
             >
 
@@ -61,7 +61,7 @@
             ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
-            <span class="p-item">
+            <span class="p-wide-item">
             ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
@@ -73,7 +73,7 @@
         <div class="p-row">
             <span class="p-thin-item">1</span>
 
-            <span class="p-wide-item">
+            <span class="p-item">
             <a href="#">مقدماتی جام جهانی</a></span
             >
 
@@ -81,7 +81,7 @@
             ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
-            <span class="p-item">
+            <span class="p-wide-item">
             ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
@@ -93,7 +93,7 @@
         <div class="p-row">
             <span class="p-thin-item">1</span>
 
-            <span class="p-wide-item">
+            <span class="p-item">
             <a href="#">مقدماتی جام جهانی</a></span
             >
 
@@ -101,7 +101,7 @@
             ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
-            <span class="p-item">
+            <span class="p-wide-item">
             ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
@@ -113,7 +113,7 @@
         <div class="p-row">
             <span class="p-thin-item">1</span>
 
-            <span class="p-wide-item">
+            <span class="p-item">
             <a href="#">مقدماتی جام جهانی</a></span
             >
 
@@ -121,7 +121,7 @@
             ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
-            <span class="p-item">
+            <span class="p-wide-item">
             ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
@@ -133,7 +133,7 @@
         <div class="p-row">
             <span class="p-thin-item">1</span>
 
-            <span class="p-wide-item">
+            <span class="p-item">
             <a href="#">مقدماتی جام جهانی</a></span
             >
 
@@ -141,7 +141,7 @@
             ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
             </span>
 
-            <span class="p-item">
+            <span class="p-wide-item">
             ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
             </span>
 
