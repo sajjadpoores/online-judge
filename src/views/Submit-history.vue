@@ -250,7 +250,6 @@ export default {
 .wrong-answer {
   background-color: red;
   border-radius: 5px;
-  display: inline;
 }
 
 .accepted {

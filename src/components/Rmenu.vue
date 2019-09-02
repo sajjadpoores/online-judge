@@ -95,8 +95,9 @@ export default {
   display: flex;
   flex-direction: column;
 
-
   overflow: hidden;
+
+  padding-bottom: 10px;
 }
 
 .rmenu .rmenu-close-btn {

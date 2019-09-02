@@ -2,7 +2,7 @@
   <div class="problems-view">
     <!-- problems-view-header -->
     <div class="problems-view-header">
-        <span>پروفایل</span>
+        <span>سوالات</span>
     </div>
 
 

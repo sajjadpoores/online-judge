@@ -56,6 +56,7 @@ export default {
 .main {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   padding: 10px;
 }
 /* end of main section */
