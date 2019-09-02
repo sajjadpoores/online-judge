@@ -4,7 +4,8 @@
     <div class="contest-view-header">
         <span>مسابقه</span>
     </div>
-
+    <!-- end of contest-view-header -->
+    
     <!-- contest info table head -->
     <div class="p-head">
         <span class="p-wide-item">

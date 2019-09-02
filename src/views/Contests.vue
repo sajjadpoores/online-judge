@@ -4,7 +4,7 @@
     <div class="contests-view-header">
         <span>مسابقات</span>
     </div>
-
+    <!-- end of contests-view-header -->
 
     <!-- contests table head -->
     <div class="p-head">

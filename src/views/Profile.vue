@@ -1,15 +1,23 @@
 <template>
   <div class="profile-view">
+      <!-- profile-view header -->
       <div class="profile-view-header">
           <span>پروفایل</span>
       </div>
+      <!-- end of profile-view header -->
+
+      <!-- profile-view content -->
       <div class="profile-view-content">
+          <!-- avatar column -->
         <div class="avatar-col">
             <img src="@/assets/img/profile.jpg" alt="">
             <button class="upload-btn">آپلود تصویر</button>
         </div>
+        <!-- end of avatar column -->
 
+        <!-- detail column -->
         <div class="detail-col">
+            <!-- detail items (profile form) -->
             <div class="detail-item">
                 <div class="detail-item-key">
                     نام کاربری
@@ -36,12 +44,12 @@
 
                         <input type="password" placeholder="پسورد جدید" :disabled="[true]"
                         class="nice-input" 
-                        v-if="true"
+                        v-if="false"
                         >
 
                         <input type="password" placeholder="تکرار پسورد جدید" :disabled="[true]"
                         class="nice-input" 
-                        v-if="true"
+                        v-if="false"
                         >
                     </div>
 
@@ -62,7 +70,9 @@
                     <font-awesome-icon icon="edit" class="clickable"/>
                 </div>
             </div>
+            <!-- end of detail items (profile form) -->
 
+            <!-- detail items (problems and contests) -->
             <div class="detail-label-item">
                 <div class="detail-label-item-key">
                     سوالات حل شده
@@ -104,9 +114,11 @@
 
                 </div>
             </div>
-
+        <!-- end of detail items (problems and contests) -->
         </div>
+        <!-- end of detail column -->
       </div>
+      <!-- end of profile-view content -->
   </div>
 </template>
 
