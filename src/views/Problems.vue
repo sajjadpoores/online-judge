@@ -34,8 +34,8 @@
             <span class="p-thin-item">1</span>
 
             <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
+                <a href="#">چه کسی پنیر مرا برداشته</a>
+            </span>
 
             <span class="p-wide-item">
             بازگشتی
@@ -54,8 +54,8 @@
             <span class="p-thin-item">1</span>
 
             <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
+                <a href="#">چه کسی پنیر مرا برداشته</a>
+            </span>
 
             <span class="p-wide-item">
             بازگشتی

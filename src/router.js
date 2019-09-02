@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import MainView from './views/Main-view.vue'
+import NavRmenu from './views/Nav-rmenu.vue'
 import Dashboard from './views/Dashboard.vue'
 import Profile from './views/Profile.vue'
 import Problems from './views/Problems.vue'
@@ -27,10 +28,15 @@ export default new Router({
       component: MainView,
       children: [
         {
-          path: '/dashboard',
-          name: 'dashboard',
-          component: Dashboard,
+          path: '/navRmenu',
+          name: 'navRmenu',
+          component: NavRmenu,
           children: [
+            {
+              path: '/dashboard',
+              name: 'dashboard',
+              component: Dashboard
+            },
             {
               path: '/problems',
               name: 'problems',

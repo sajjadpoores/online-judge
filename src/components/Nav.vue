@@ -30,14 +30,16 @@
             <div class="nav-second">
 
                 <div class="full-width-on-mobile nav-item">
+                  <router-link to="/dashboard">داشبورد</router-link>
+                </div>
+
+                <div class="full-width-on-mobile nav-item">
                   <router-link to="/problems">سوالات</router-link>
                 </div>
+                
                 <div class="full-width-on-mobile nav-item">
-                <router-link to="/contests">مسابقات</router-link>
+                  <router-link to="/contests">مسابقات</router-link>
                 </div>
-                <div class="full-width-on-mobile nav-item">
-                  <router-link to="/dashboard">داشبورد</router-link>
-                  </div>
 
                 <div class="nav-item rightside-menu-btn" >
                   <svg width="30" height="30">

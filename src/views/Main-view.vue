@@ -42,4 +42,10 @@ body {
   background-color: var(--dark-blue);
 }
 
+/* header */
+.header {
+  color: var(--light-blue);
+  min-height: 70px;
+}
+/* end of header */
 </style>
