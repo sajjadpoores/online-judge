@@ -11,9 +11,9 @@ import SubmitHistory from './views/Submit-history.vue'
 import Contests from './views/Contests.vue'
 import Contest from './views/Contest.vue'
 import Test from './views/Test.vue'
-Vue.use(Router)
 
-export default new Router({
+Vue.use(Router)
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -78,3 +78,13 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/logout') {
+    Vue.cookie.delete('auth')
+  }
+  if (Vue.cookie.get('auth') || to.name === 'home') next()
+  else router.push({ name: 'home' })
+})
+
+export default router

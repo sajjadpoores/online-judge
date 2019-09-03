@@ -5,7 +5,7 @@
             <!-- first section of nav -->
             <div class="nav-first">
                 <div class="nav-item logo">
-                    <img src="@/assets/img/logo.png" alt="">
+                    <a href="/"><img src="@/assets/img/logo.png" alt=""></a>
                 </div>
                 <div class="full-width-on-mobile nav-item dropdown">
                     <span @click="show_dropdown"
@@ -20,7 +20,7 @@
                           <router-link to="/profile">پروفایل</router-link>
                         </div>
                         <div class="dropdown-item">
-                          <router-link to="/logout">خروج</router-link>
+                          <router-link to="/logout" @click="logout">خروج</router-link>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
         <!-- mobile nav -->
         <nav class="mobile-nav">
             <div class="mnav-item logo">
-                <img src="@/assets/img/logo.png" alt="">
+                <a href="/"><img src="@/assets/img/logo.png" alt=""></a>
             </div>
             <div class="mnav-dropbtn mnav-item" @click="show_mnav_items()">
                 <a href="#">
@@ -80,7 +80,7 @@
                     <router-link to="/profile">پروفایل</router-link>
                 </div>
                 <div class="mnav-drop-item">
-                    <router-link to="/logout">خروج</router-link>
+                    <router-link to="/logout" @click="logout">خروج</router-link>
                 </div>
             </div>
 
@@ -146,7 +146,12 @@ export default {
           }
 
           // console.log(this.mnav_drop_container.style.height)
-        }
+        },
+        logout(){
+          this.$cookie.delete('auth')
+          // refresh the page
+          window.location.reload()
+        },
     },
     mounted(){
         this.mnav_drop_container = document.getElementById("mnav-drop-container")

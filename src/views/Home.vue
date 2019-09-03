@@ -5,27 +5,39 @@
         <div id="registerModalContent" class="modal-content">
             <h2 class="modal-title">ثبت نام</h2>
             <span @click="rCloseBtnClick" id="rCloseBtn" class="close-btn">&times;</span>
-            <form class="modalForm" action="">
+            <form class="modalForm" @submit="register">
+              <!-- error and success messages -->
+              <p class="formError">{{ registerError }}</p>
+              <p class="formSuccess">{{ registerSuccess }}</p>
+              
                 <div class="form-group">
                     <!-- <i class="fa fa-user"></i> -->
                     <font-awesome-icon icon="user" class="form-icon"/>
-                    <input type="text" placeholder="نام کاربری">
+                    <input id="registerUsername" type="text" placeholder="نام کاربری">
                 </div>
 
-                <div class="form-group">
+                <!-- TODO: add email if wanted (uncomment and add id to input field and do the register method stuff ... -->
+
+                <!-- <div class="form-group"> -->
                     <!-- <i class="fa  fa-envelope"></i> -->
-                    <font-awesome-icon icon="envelope" class="form-icon" />
-                    <input type="email" placeholder="پست الکترونیک">
+                    <!-- <font-awesome-icon icon="envelope" class="form-icon" /> -->
+                    <!-- <input type="email" placeholder="پست الکترونیک"> -->
+                <!-- </div> -->
+
+                <div class="form-group">
+                    <!-- <i class="fa fa-lock"></i> -->
+                    <font-awesome-icon icon="lock" class="form-icon" />
+                    <input id="registerPassword" type="password" placeholder="کلمه عبور">
                 </div>
 
                 <div class="form-group">
                     <!-- <i class="fa fa-lock"></i> -->
                     <font-awesome-icon icon="lock" class="form-icon" />
-                    <input type="password" placeholder="کلمه عبور">
+                    <input id="registerRePassword" type="password" placeholder="تکرار کلمه عبور">
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" value="ثبت نام">
+                    <input id="registerSubmit" type="submit" value="ثبت نام">
                 </div>
             </form>
         </div>
@@ -38,7 +50,7 @@
             <h2 class="modal-title">ورود</h2>
             <span @click="lCloseBtnClick" id="lCloseBtn" class="close-btn">&times;</span>
             <form class="modalForm" @submit="login">
-                <p class="error">{{ loginError }}</p>
+                <p class="formError">{{ loginError }}</p>
                 <div class="form-group">
                     <!-- <i class="fa fa-user"></i> -->
                     <font-awesome-icon icon="user" class="form-icon" />
@@ -66,10 +78,12 @@
       <!-- Nav -->
         <nav class="nav">
             <div class="logo"><img src="@/assets/img/logo.png" alt="logo" /></div>
-            <a href="#" id="registerBtn" class="nav-item" @click="rbtnClick">ثبت نام</a>
-            <a href="#" @click="lbtnClick" id="loginBtn" class="nav-item">ورود</a>
-            <a href="#" class="nav-item">سوالات</a>
-            <a href="#" class="nav-item">مسابقات</a>
+            <a href="#" id="registerBtn" class="nav-item" @click="rbtnClick" v-if="!$cookie.get('auth')">ثبت نام</a>
+            <a href="#" @click="lbtnClick" id="loginBtn" class="nav-item" v-if="!$cookie.get('auth')">ورود</a>
+            <a href="/problems" v-if="$cookie.get('auth')" class="nav-item">سوالات</a>
+            <a href="/contests" v-if="$cookie.get('auth')" class="nav-item">مسابقات</a>
+            <a href="/dashboard" class="nav-item" v-if="$cookie.get('auth')">داشبورد</a>
+            <a href="#" @click="logout" class="nav-item" v-if="$cookie.get('auth')">خروج</a>
         </nav>
       <!-- End of nav -->
 
@@ -96,6 +110,7 @@
 import axios from 'axios'
 import { mapState } from 'vuex'
 import router from '@/router.js'
+
 export default {
   name: 'home',
   data() {
@@ -107,12 +122,22 @@ export default {
       lModal: null,
       lModalContent: null,
       lCloseBtn: null,
-      loginError: null
+      loginError: null,
+      registerError: null,
+      registerSuccess: null
     }
   },
   components: {
   },
   methods: {
+    // method to make program wait before excution of next line!
+    wait(ms){
+      var start = new Date().getTime();
+      var end = start;
+      while(end < start + ms) {
+        end = new Date().getTime();
+      }
+    },
     // show register modal on register link click
     rbtnClick() {
       this.rModal.style.display = 'block'
@@ -134,8 +159,65 @@ export default {
     lCloseBtnClick(){
       this.lModal.style.display = 'none'
     },
+    logout(){
+      this.$cookie.delete('auth')
+      // refresh the page
+      window.location.reload()
+    },
+    register(e){
+      e.preventDefault()
+      // clear form messages
+      this.registerError = null
+      this.registerSuccess = null
+      this.loginError = null
+
+      // get form values
+      const username = document.getElementById('registerUsername').value
+      const password = document.getElementById('registerPassword').value
+
+      const rePassword = document.getElementById('registerRePassword').value
+
+      const submitButton = document.getElementById('registerSubmit')
+
+      if(rePassword !== password){
+        this.registerError = 'کلمه عبور و تکرار آن یکسان نیست'
+        return
+      }
+
+      const user = {
+        username,
+        password
+      }
+
+      // try logging in
+      axios.post(this.backendUrl + '/user/register', user).then(
+        response => {
+          // show success message
+          this.registerSuccess = username + ' ثبت نام با موفقیت انجام شد.'
+          
+          // disable submit button
+          submitButton.disabled = true
+          // wait 2 sec
+          this.wait(2000)
+          // close register modal
+          this.rCloseBtnClick()
+          // open login modal
+          this.lbtnClick()
+        }
+      ).catch(
+        error => {
+          this.registerError = 'کلمه عبور باید حداقل ۸ کاراکتر و ترکیبی از حرف و عدد باشد'
+
+          if(error.response.data.type === 'duplicateUser')
+            this.registerError = 'نام کاربری تکراری می باشد.'
+          console.log(error.response)
+        }
+      )
+    },
     login(e) {
       e.preventDefault()
+      // clear error message
+      this.loginError = null
 
       // get form values
       const username = document.getElementById('loginUsername').value
@@ -152,12 +234,12 @@ export default {
           // success
           const jwt = response.data.token
           this.$cookie.set('auth', jwt)
-          router.push('/dashboard')
+          router.push({name: 'dashboard'})
         }
       ).catch(
         error => {
           this.loginError = 'نام کاربری یا کلمه عبور اشتباه است'
-          console.log(error, 1)
+          console.log(error)
         }
       )
     }
@@ -249,6 +331,7 @@ export default {
 @media screen and (max-width: 765px) {
   .nav {
     flex-wrap: wrap;
+    justify-content: center;
   }
 
   .nav .logo {
@@ -405,8 +488,14 @@ export default {
   cursor: pointer;
 }
 
-.error {
+.formError {
   color: red;
+  font-size: 1.2rem;
+  margin: 15px 0;
+}
+
+.formSuccess {
+  color: green;
   font-size: 1.2rem;
   margin: 15px 0;
 }
