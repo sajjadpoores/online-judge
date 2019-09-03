@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import axios from 'axios'
+import { mapState } from 'vuex'
 import Home from './views/Home.vue'
 import MainView from './views/Main-view.vue'
 import NavRmenu from './views/Nav-rmenu.vue'
@@ -79,11 +81,31 @@ const router = new Router({
   ]
 })
 
+function checkAuthentication (jwt) {
+  axios
+    .get('http://178.22.122.251:3000/profile', {
+      headers: {
+        Authorization: jwt
+      }
+    })
+    .then(response => {
+      // do nothing
+    })
+    .catch(() => {
+      router.push({ name: 'home' })
+    })
+}
+
 router.beforeEach((to, from, next) => {
+  const jwt = Vue.cookie.get('auth')
+
   if (to.path === '/logout') {
     Vue.cookie.delete('auth')
   }
-  if (Vue.cookie.get('auth') || to.name === 'home') next()
+
+  checkAuthentication(jwt)
+
+  if (jwt || to.name === 'home') next()
   else router.push({ name: 'home' })
 })
 
