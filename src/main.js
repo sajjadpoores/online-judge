@@ -20,6 +20,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+import VueCookie from 'vue-cookie'
+Vue.use(VueCookie)
+
 library.add(faUser)
 library.add(faLock)
 library.add(faEnvelope)
@@ -36,7 +39,6 @@ library.add(faCode)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

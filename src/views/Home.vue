@@ -37,17 +37,18 @@
         <div class="modal-content" id="loginModalContent">
             <h2 class="modal-title">ورود</h2>
             <span @click="lCloseBtnClick" id="lCloseBtn" class="close-btn">&times;</span>
-            <form class="modalForm" action="">
+            <form class="modalForm" @submit="login">
+                <p class="error">{{ loginError }}</p>
                 <div class="form-group">
                     <!-- <i class="fa fa-user"></i> -->
                     <font-awesome-icon icon="user" class="form-icon" />
-                    <input type="text" placeholder="نام کاربری">
+                    <input type="text" id="loginUsername" placeholder="نام کاربری">
                 </div>
 
                 <div class="form-group">
                     <!-- <i class="fa fa-lock"></i> -->
                     <font-awesome-icon icon="lock" class="form-icon" />
-                    <input type="password" placeholder="کلمه عبور">
+                    <input id="loginPassword" type="password" placeholder="کلمه عبور">
                 </div>
 
                 <div class="form-group">
@@ -92,6 +93,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { mapState } from 'vuex'
+import router from '@/router.js'
 export default {
   name: 'home',
   data() {
@@ -102,7 +106,8 @@ export default {
       rCloseBtn: null,
       lModal: null,
       lModalContent: null,
-      lCloseBtn: null
+      lCloseBtn: null,
+      loginError: null
     }
   },
   components: {
@@ -128,7 +133,37 @@ export default {
     },
     lCloseBtnClick(){
       this.lModal.style.display = 'none'
+    },
+    login(e) {
+      e.preventDefault()
+
+      // get form values
+      const username = document.getElementById('loginUsername').value
+      const password = document.getElementById('loginPassword').value
+
+      const user = {
+        username,
+        password
+      }
+
+      // try logging in
+      axios.post(this.backendUrl + '/user/login', user).then(
+        response => {
+          // success
+          const jwt = response.data.token
+          this.$cookie.set('auth', jwt)
+          router.push('/dashboard')
+        }
+      ).catch(
+        error => {
+          this.loginError = 'نام کاربری یا کلمه عبور اشتباه است'
+          console.log(error, 1)
+        }
+      )
     }
+  },
+  computed: {
+    ...mapState(['backendUrl'])
   },
   mounted() {
     // register Modal variables
@@ -370,6 +405,11 @@ export default {
   cursor: pointer;
 }
 
+.error {
+  color: red;
+  font-size: 1.2rem;
+  margin: 15px 0;
+}
 /* End of general modal rules */
 
 /* Register modal */
