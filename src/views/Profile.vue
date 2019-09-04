@@ -10,8 +10,10 @@
       <div class="profile-view-content">
           <!-- avatar column -->
         <div class="avatar-col">
-            <img :src="avatar_src" alt="">
-            <button class="upload-btn">آپلود تصویر</button>
+            <img id="avatarItself" :src="profileDetail.avatar_url" alt="">
+            <input id="avatarInput" type="file" style="display:none;" accept="image/x-png,image/gif,image/jpeg" @change="imageSelected"/>
+            <button class="upload-btn" onclick="document.getElementById('avatarInput').click();">آپلود تصویر</button>
+            <div alt=""></div>
         </div>
         <!-- end of avatar column -->
 
@@ -22,14 +24,10 @@
                 <div class="detail-item-key">
                     نام کاربری
                 </div>
-                <div class="detail-item-value">
-                    <input type="text" :value="profileDetail.username" :disabled="[true]" class="nice-input"
-                    id="usernameInput"
-                    >
 
-                    <font-awesome-icon icon="edit" class="clickable" @click="editUsername"
-                    id="editUsernameIcon"
-                    />
+                <div class="detail-item-value">
+                    <input type="text" :value="profileDetail.username" disabled class="nice-input"
+                    >
                 </div>
             </div>
 
@@ -40,24 +38,30 @@
                 <div class="detail-item-value">
 
                     <div class="multiple-input-container">
+                        
                         <input type="password" placeholder="" 
                         value=".........." 
-                        :disabled="[true]"
-                        class="nice-input"
+                        :disabled="!doingEdit.password" class="nice-input"
+                        id="passwordInput"
+                        >
+                        
+                        <div class="validationError" v-if="passwordError">{{ passwordError }}</div>
+
+                        <input type="password" placeholder="پسورد جدید" 
+                        v-if="doingEdit.password" class="nice-input"
+                        id="newPasswordInput"
                         >
 
-                        <input type="password" placeholder="پسورد جدید" :disabled="[true]"
-                        class="nice-input" 
-                        v-if="false"
-                        >
-
-                        <input type="password" placeholder="تکرار پسورد جدید" :disabled="[true]"
-                        class="nice-input" 
-                        v-if="false"
+                        <input type="password" placeholder="تکرار پسورد جدید" v-if="doingEdit.password" class="nice-input"
+                        id="reNewPasswordInput"
                         >
                     </div>
 
-                    <font-awesome-icon icon="edit" class="clickable"/>
+                    <font-awesome-icon  
+                        class="clickable"
+                        @click="editPassword"
+                        :icon="['fas', doingEdit.password ? 'check' : 'edit']" 
+                    />
                 </div>
             </div>
 
@@ -68,12 +72,16 @@
                 </div>
                 <div class="detail-item-value">
                     <input type="email" 
-                    :disabled="[true]"
                     class="nice-input"
                     :value="profileDetail.email"
+                    :disabled="!doingEdit.email"
+                    id="emailInput"
                     >
 
-                    <font-awesome-icon icon="edit" class="clickable"/>
+                    <font-awesome-icon class="clickable"
+                        @click="editNormalField('emailInput', 'email')"
+                        :icon="['fas', doingEdit.email ? 'check' : 'edit']" 
+                    />
                 </div>
             </div>
             
@@ -83,12 +91,16 @@
                 </div>
                 <div class="detail-item-value">
                     <input type="text" 
-                    :disabled="[true]"
-                    class="nice-input"
-                    :value="profileDetail.studentID"
+                        class="nice-input"
+                        :value="profileDetail.studentID"
+                        :disabled="!doingEdit.studentID"
+                        id="studentIDInput"
                     >
 
-                    <font-awesome-icon icon="edit" class="clickable"/>
+                    <font-awesome-icon class="clickable"
+                        @click="editNormalField('studentIDInput', 'studentID')"
+                        :icon="['fas', doingEdit.studentID ? 'check' : 'edit']" 
+                    />
                 </div>
             </div>
 
@@ -98,13 +110,17 @@
                     شماره ملی
                 </div>
                 <div class="detail-item-value">
-                    <input type="text"
-                    :disabled="[true]"
-                    class="nice-input"
-                    :value="profileDetail.nationalID"
+                    <input type="text" 
+                        id="nationalIDInput"
+                        class="nice-input"
+                        :value="profileDetail.nationalID"
+                        :disabled="!doingEdit.nationalID"
                     >
 
-                    <font-awesome-icon icon="edit" class="clickable"/>
+                    <font-awesome-icon class="clickable"
+                        @click="editNormalField('nationalIDInput', 'nationalID')"
+                        :icon="['fas', doingEdit.nationalID ? 'check' : 'edit']" 
+                    />
                 </div>
             </div>
 
@@ -114,12 +130,17 @@
                 </div>
                 <div class="detail-item-value">
                     <input type="text"
-                    :disabled="[true]"
+                    id="phoneInput"
                     class="nice-input"
+                    :disabled="!doingEdit.phone"
                     :value="profileDetail.phone"
                     >
 
-                    <font-awesome-icon icon="edit" class="clickable"/>
+                    <font-awesome-icon 
+                        :icon="['fas', doingEdit.phone   ? 'check' : 'edit']" 
+                        class="clickable"
+                        @click="editNormalField('phoneInput', 'phone')"
+                    />
                 </div>
             </div>
             <!-- end of detail items (profile form) -->
@@ -177,6 +198,7 @@
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
+import router from '@/router.js'
 export default {
     name: "profile",
     data(){
@@ -189,27 +211,181 @@ export default {
                 nationalID: null,
                 studentID: null,
                 avatar_url: null
-            }
+            },
+            doingEdit: {
+                password: false,
+                email: false,
+                phone: false,
+                nationalID: false,
+                studentID: false,
+                avatar_url: false
+            },
+            passwordError: null
         }
     },
     methods: {
-        editUsername(){
-            var usernameInput = document.getElementById('usernameInput')
-            var editUsernameIcon = document.getElementById('editUsernameIcon')
-            // enable the field
-            usernameInput.disabled = false
-            console.log(editUsernameIcon)
-            editUsernameIcon.icon = "check"
+        ValidateFileUpload(fuData) {
+            var FileUploadPath = fuData.value;
+
+            //To check if user upload any file
+            if (FileUploadPath == '') {
+                return false
+
+            } else {
+                var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase()
+
+                //The file uploaded is an image
+                if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                // To Display
+                    if (fuData.files && fuData.files[0]) {
+                        return true
+                    }
+                } 
+                // The file upload is NOT an image
+                else {
+                    return false
+                }
+                // on any any any other case! return false
+                return false
+            }
+        },
+        imageSelected(){
+            var avatarInput = document.getElementById('avatarInput')
+
+            // if avatar is valid
+            if(this.ValidateFileUpload(avatarInput)){
+                // get image src
+                var newAvatar = avatarInput.files[0]
+                var data = new FormData()
+                data.append('avatar', newAvatar, 'avatar.jpg')
+                console.log(data)
+                // get jwt authentication
+                const jwt = this.$cookie.get('auth')
+                // send put request
+                axios.put(this.backendUrl + '/profile', data, 
+                {
+                    headers: {
+                        Authorization: jwt
+                    }
+                }
+                ).then(response => {
+                    // secceed
+                    // display image
+                    var reader = new FileReader()
+                    reader.onload = function(e) {
+                        document.getElementById('avatarItself').src = e.target.result
+                    }
+                    reader.readAsDataURL(avatarInput.files[0])
+                }).catch(error => {
+                    // failed
+                    // redirect home in case user is unathorized
+                    if(error.response.status === 401)
+                        router.push({ name: 'home' })
+                    // show error
+                    console.log(error)
+                })
+            }
+        },
+        editPassword(){
+            this.passwordError = null
+
+            var passwordInput = document.getElementById('passwordInput')
+            var newPasswordInput = document.getElementById('newPasswordInput')
+            var reNewPasswordInput = document.getElementById('reNewPasswordInput')
+
+            // if user wants to submit change
+            if(this.doingEdit.password){
+                // gather info and create proper data
+                var passwordData = passwordInput.value
+                var newPasswordData = newPasswordInput.value
+                var reNewPasswordData = reNewPasswordInput.value
+                
+                if(newPasswordData !== reNewPasswordData){
+                    this.passwordError = 'پسورد و تکرار آن یکسان نمی باشد.'
+                    return
+                }
+
+                const data = {
+                    oldPassword: passwordData,
+                    newPassword: newPasswordData
+                }
+                // get jwt authentication
+                const jwt = this.$cookie.get('auth')
+
+                // send put request
+                axios.put(this.backendUrl + '/user/password', data, 
+                {
+                    headers: {
+                        Authorization: jwt
+                    }
+                }
+                ).then(response => {
+                    // seccess
+                    this.profileDetail[fieldName] = newFieldData
+                }).catch(error => {
+                    // failed
+                    // redirect home in case user is unathorized
+                    if(error.response.status === 401)
+                        router.push({ name: 'home' })
+
+                    this.passwordError = 'پسورد اشتباه است'
+                    // show error
+                    console.log(error)
+                })
+
+                // disable field
+                this.doingEdit.password = false
+            }
+            else { // else if user wants to being able to edit the field
+                // enable the field
+                this.doingEdit.password = true
+
+                passwordInput.value = ""
+                passwordInput.placeholder = "کلمه عبور فعلی"
+            }            
+        },
+        editNormalField(fieldInputId, fieldName){
+            var fieldInput = document.getElementById(fieldInputId)
             
+            if(this.doingEdit[fieldName]){
+                // gather info and create proper data
+                var newFieldData = fieldInput.value
+                var data = new FormData();
+                data.append(fieldName, newFieldData)
+                        
+                // get jwt authentication
+                const jwt = this.$cookie.get('auth')
+
+                // send put request
+                axios.put(this.backendUrl + '/profile', data, 
+                {
+                    headers: {
+                        Authorization: jwt
+                    }
+                }
+                ).then(response => {
+                    // seccess
+                    this.profileDetail[fieldName] = newFieldData
+                }).catch(error => {
+                    // failed
+                    // redirect home in case user is unathorized
+                    if(error.response.status === 401)
+                        router.push({ name: 'home' })
+                    // show error
+                    console.log(error)
+                })
+                
+                // disable field input
+                this.doingEdit[fieldName] = false
+            }
+            else {
+                // enable field input
+                this.doingEdit[fieldName] = true
+            }
         }
     },
     computed: {
-        ...mapState(['backendUrl']),
-        avatar_src(){
-            if(this.profileDetail)
-                return this.backendUrl +  this.profileDetail.avatar_url
-            return ''
-        }
+        ...mapState(['backendUrl'])
     },
     mounted(){
         // 
@@ -235,11 +411,22 @@ export default {
         cursor: pointer;
     }
     
-    .nice-input{
+    .nice-input {
         padding: 7px;
         border: 0;
         border-radius: 5px;
         text-align: center;
+    }
+
+    .validationError {
+        color: red;
+        font-size: 1.1rem;
+        text-align: center;
+        direction: rtl;
+    }
+    .nice-input:disabled{
+        background-color: gray;
+        color: white;
     }
 
     .multiple-input-container {

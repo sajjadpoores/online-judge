@@ -90,7 +90,8 @@ function checkAuthentication (jwt) {
     .then(response => {
       // do nothing
     })
-    .catch(() => {
+    .catch(error => {
+      if (error.response.status === 401) Vue.cookie.delete('auth')
       router.push({ name: 'home' })
     })
 }
