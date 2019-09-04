@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import axios from 'axios'
-import { mapState } from 'vuex'
 import Home from './views/Home.vue'
 import MainView from './views/Main-view.vue'
 import NavRmenu from './views/Nav-rmenu.vue'

@@ -10,7 +10,7 @@
       <div class="profile-view-content">
           <!-- avatar column -->
         <div class="avatar-col">
-            <img src="@/assets/img/profile.jpg" alt="">
+            <img :src="avatar_src" alt="">
             <button class="upload-btn">آپلود تصویر</button>
         </div>
         <!-- end of avatar column -->
@@ -23,9 +23,13 @@
                     نام کاربری
                 </div>
                 <div class="detail-item-value">
-                    <input type="text" value="ahmad" :disabled="[true]" class="nice-input">
+                    <input type="text" :value="profileDetail.username" :disabled="[true]" class="nice-input"
+                    id="usernameInput"
+                    >
 
-                    <font-awesome-icon icon="edit" class="clickable"/>
+                    <font-awesome-icon icon="edit" class="clickable" @click="editUsername"
+                    id="editUsernameIcon"
+                    />
                 </div>
             </div>
 
@@ -37,7 +41,7 @@
 
                     <div class="multiple-input-container">
                         <input type="password" placeholder="" 
-                        value=".........."
+                        value=".........." 
                         :disabled="[true]"
                         class="nice-input"
                         >
@@ -63,8 +67,56 @@
                     ایمیل
                 </div>
                 <div class="detail-item-value">
-                    <input type="text" value="ahmad@yahoo.com" :disabled="[true]"
+                    <input type="email" 
+                    :disabled="[true]"
                     class="nice-input"
+                    :value="profileDetail.email"
+                    >
+
+                    <font-awesome-icon icon="edit" class="clickable"/>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-item-key">
+                    شماره دانشجویی
+                </div>
+                <div class="detail-item-value">
+                    <input type="text" 
+                    :disabled="[true]"
+                    class="nice-input"
+                    :value="profileDetail.studentID"
+                    >
+
+                    <font-awesome-icon icon="edit" class="clickable"/>
+                </div>
+            </div>
+
+
+            <div class="detail-item">
+                <div class="detail-item-key">
+                    شماره ملی
+                </div>
+                <div class="detail-item-value">
+                    <input type="text"
+                    :disabled="[true]"
+                    class="nice-input"
+                    :value="profileDetail.nationalID"
+                    >
+
+                    <font-awesome-icon icon="edit" class="clickable"/>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-item-key">
+                    شماره تلفن
+                </div>
+                <div class="detail-item-value">
+                    <input type="text"
+                    :disabled="[true]"
+                    class="nice-input"
+                    :value="profileDetail.phone"
                     >
 
                     <font-awesome-icon icon="edit" class="clickable"/>
@@ -123,8 +175,57 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
-    name: "profile"
+    name: "profile",
+    data(){
+        return {
+            // TODO: add profile response here
+            profileDetail: {
+                username: null,
+                email: null,
+                phone: null,
+                nationalID: null,
+                studentID: null,
+                avatar_url: null
+            }
+        }
+    },
+    methods: {
+        editUsername(){
+            var usernameInput = document.getElementById('usernameInput')
+            var editUsernameIcon = document.getElementById('editUsernameIcon')
+            // enable the field
+            usernameInput.disabled = false
+            console.log(editUsernameIcon)
+            editUsernameIcon.icon = "check"
+            
+        }
+    },
+    computed: {
+        ...mapState(['backendUrl']),
+        avatar_src(){
+            if(this.profileDetail)
+                return this.backendUrl +  this.profileDetail.avatar_url
+            return ''
+        }
+    },
+    mounted(){
+        // 
+        const jwt = this.$cookie.get('auth')
+
+        axios.get('http://178.22.122.251:3000/profile', {
+            headers: {
+                Authorization: jwt
+            }
+        }).then(response => {
+            this.formData = this.profileDetail = response.data.body
+        })
+        .catch((error) => {
+        //  do nothing
+        })
+    }
 }
 </script>
 
