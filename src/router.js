@@ -8,6 +8,7 @@ import Dashboard from './views/Dashboard.vue'
 import Profile from './views/Profile.vue'
 import Problems from './views/Problems.vue'
 import Problem from './views/Problem.vue'
+import CreateProblem from './views/Create-problem.vue'
 import SubmitHistory from './views/Submit-history.vue'
 import Contests from './views/Contests.vue'
 import Contest from './views/Contest.vue'
@@ -47,6 +48,11 @@ const router = new Router({
               path: '/problem/:pid',
               name: 'problem',
               component: Problem
+            },
+            {
+              path: '/problem/create',
+              name: 'create-problem',
+              component: CreateProblem
             },
             {
               path: '/history',
