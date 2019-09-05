@@ -9,11 +9,6 @@
           </div>
         </div>
 
-
-            <div class="center-item rmenu-item rmenu-head">
-                {{ profileDetail.username }}
-            </div>
-
             <div class="rmenu-close-btn" @click="close_rmenu">
                 &times;
             </div>
@@ -52,7 +47,7 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway'
 import axios from 'axios'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
     name: "Rmenu",
@@ -62,31 +57,24 @@ export default {
             rmenu: null,
             rmenuTogglerBtn: null,
             rmenuTogglerDiv: null,
-            profileDetail: {
-                username: null,
-                email: null,
-                phone: null,
-                nationalID: null,
-                studentID: null,
-                avatar_url: null
-            },
         }
     },
     methods: {
-      close_rmenu(event) {
-          // if user hasnt click on open rmenu button , close the rmenu
-          if(event.target !== this.rmenuTogglerBtn){
-              this.rmenu.style.width = "0px"  
-              this.rmenuTogglerDiv.style.opacity = "1"
-          }
-      },
+        ...mapActions(['getProfile']),
+        close_rmenu(event) {
+            // if user hasnt click on open rmenu button , close the rmenu
+            if(event.target !==         this.rmenuTogglerBtn){
+                    this.rmenu.style.width = "0px"  
+                    this.rmenuTogglerDiv.style.opacity = "1"
+            }
+        },
       show_rmenu() {
           this.rmenu.style.width = "300px"
           this.rmenuTogglerDiv.style.opacity = "0"
       }
     },
     computed: {
-      ...mapState(['backendUrl']),
+      ...mapState(['backendUrl', 'profileDetail']),
     },
     mounted(){
         this.rmenu = document.getElementById('rmenu')
@@ -94,20 +82,7 @@ export default {
         this.rmenuTogglerBtn = document.getElementById('rmenu-toggler-btn')
 
         const jwt = this.$cookie.get('auth')
-
-        axios.get('http://178.22.122.251:3000/profile', {
-            headers: {
-                Authorization: jwt
-            }
-        }).then(response => {
-            this.formData = this.profileDetail = response.data.body
-        })
-        .catch((error) => {
-            // redirect home in case user is unathorized
-            if(error.response.status === 401)
-                router.push({ name: 'home' })
-            //  do nothing
-        })
+        this.getProfile(jwt)
     }
 }
 </script>
@@ -183,11 +158,6 @@ export default {
   margin-right: auto;
 }
 
-.center-item{
-  align-self: center;
-  color: var(--greenest) !important;
-  text-transform: capitalize;
-}
 /* rmenu fades away on tablet size screen */
 @media screen and (min-width: 601px) {
   .rmenu .rmenu-close-btn {

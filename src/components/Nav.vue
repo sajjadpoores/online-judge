@@ -13,7 +13,7 @@
                      class="dropbtn flex-container-to-center">
                         
                         <font-awesome-icon icon="caret-down" class="dropbtn dropbtni" />
-                        <span class="dropbtn">پروفایل</span>
+                        <span class="capitalized dropbtn">{{get_username}}</span>
                     </span>
                     <div id="myDropdown" class="dropdown-content">
                         <div class="dropdown-item">
@@ -71,7 +71,7 @@
                     id="arrow_i_up"
                     icon="caret-up"/>
 
-                    <span>پروفایل</span>
+                    <span class="capitalized">{{get_username}}</span>
 
                 </a>
             </div>
@@ -106,7 +106,7 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway'
-
+import { mapState, mapActions } from 'vuex'
 export default {
     name: "Nav",
     mixins: [ clickaway ],
@@ -117,6 +117,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['getProfile']),
         show_dropdown(){
             document.getElementById("myDropdown").classList.toggle("show");
         },
@@ -153,8 +154,20 @@ export default {
           window.location.reload()
         },
     },
+    computed: {
+        ...mapState(['profileDetail']),
+        get_username(){
+            if(this.profileDetail.username === null)
+                return 'پروفایل'
+            return this.profileDetail.username
+        }
+    },
     mounted(){
         this.mnav_drop_container = document.getElementById("mnav-drop-container")
+        this.getProfile
+
+        const jwt = this.$cookie.get('auth')
+        this.getProfile(jwt)
     }
 }
 </script>
@@ -395,4 +408,10 @@ export default {
   }
 }
 /* end of mobile menu */
+
+/* general classes */
+.capitalized {
+    text-transform: capitalize;
+}
+/* end of general classes */
 </style>

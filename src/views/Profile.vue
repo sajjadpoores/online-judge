@@ -197,7 +197,7 @@
 
 <script>
 import axios from 'axios'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import router from '@/router.js'
 export default {
     name: "profile",
@@ -223,16 +223,16 @@ export default {
         }
     },
     methods: {
+        ...mapActions['getProfile', 'updateProfile'],
         ValidateFileUpload(fuData) {
             var FileUploadPath = fuData.value;
 
             //To check if user upload any file
             if (FileUploadPath == '') {
                 return false
-
-            } else {
+            } 
+            else {
                 var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase()
-
                 //The file uploaded is an image
                 if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
                 // To Display
@@ -240,11 +240,10 @@ export default {
                         return true
                     }
                 } 
-                // The file upload is NOT an image
-                else {
+                else { // The file upload is NOT an image
                     return false
                 }
-                // on any any any other case! return false
+                // on any other cases! return false
                 return false
             }
         },
@@ -257,7 +256,6 @@ export default {
                 var newAvatar = avatarInput.files[0]
                 var data = new FormData()
                 data.append('avatar', newAvatar, 'avatar.jpg')
-                console.log(data)
                 // get jwt authentication
                 const jwt = this.$cookie.get('auth')
                 // send put request
@@ -268,7 +266,12 @@ export default {
                     }
                 }
                 ).then(response => {
-                    // secceed
+                    // succeed
+                    // todo: see how is the response and update the state store
+                    // update store state
+                    // this.updateProfile(this.profileDetail)
+                    console.log(response)
+                    
                     // display image
                     var reader = new FileReader()
                     reader.onload = function(e) {
@@ -326,6 +329,8 @@ export default {
                 ).then(response => {
                     // seccess
                     this.profileDetail[fieldName] = newFieldData
+                    // update store state
+                    this.updateProfile(this.profileDetail)
                 }).catch(error => {
                     // failed
                     // redirect home in case user is unathorized
@@ -370,6 +375,8 @@ export default {
                 ).then(response => {
                     // seccess
                     this.profileDetail[fieldName] = newFieldData
+                    // update store state
+                    this.updateProfile(this.profileDetail)
                 }).catch(error => {
                     // failed
                     // redirect home in case user is unathorized
