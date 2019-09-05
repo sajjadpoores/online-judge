@@ -4,7 +4,7 @@
         <span>ایجاد سوال جدید</span>
       </div>
 
-    <form action="">
+    <form action="" @submit="createProblem">
       <div class="problem-container">
         <div class="psection ptitle">
           <label>عنوان</label>
@@ -46,8 +46,61 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
-    name: "createProblem"
+    name: "createProblem",
+    computed: {
+      ...mapState(['backendUrl'])
+    },
+    methods: {
+      createProblem(e){
+        e.preventDefault()
+
+        var titleInput = document.getElementById('titleInput')
+        var title = titleInput.value
+
+        var timeInput = document.getElementById('timeInput')
+        var time = timeInput.value
+
+        var memoryInput = document.getElementById('memoryInput')
+        var memory = memoryInput.value
+
+        var outputInput = document.getElementById('outputInput')
+        var output = outputInput.value
+
+        var contentTextarea = document.getElementById('contentTextarea')
+        var content = contentTextarea.value
+
+        var testcaseInput = document.getElementById('testcaseInput')
+        var testcase = testcaseInput.files[0]
+
+        var data = new FormData()
+        data.append('name', title)
+        data.append('timelimit', time)
+        data.append('memlimit', memory)
+        data.append('outputLimit', output)
+        data.append('testcase', testcase)
+        data.append('content', btoa(content))
+        console.log(btoa(content))
+
+        // get jwt authentication
+        const jwt = this.$cookie.get('auth')
+
+        axios.post(this.backendUrl + '/problem', data, 
+        {
+          headers: {
+            Authorization: jwt
+          }
+        }
+        ).then(response => {
+          console.log(response)
+        }).catch(errpr => {
+          if(error.response.status === 401)
+            router.push({ name: 'home' })
+          console.log(error.response)
+        })
+      }
+    }
 }
 </script>
 
