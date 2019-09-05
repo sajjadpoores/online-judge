@@ -18,7 +18,7 @@
           </div>
 
           <div class="container-item-item">
-            ایجاد سوال جدید
+            <router-link :to="{name: 'createProblem'}">ایجاد سوال جدید</router-link>
           </div>
 
           <div class="container-item-item">
@@ -87,12 +87,17 @@ export default {
   }
 
   .container-item-item {
-    cursor: pointer;
     color: white;
     background-color: var(--gray-blue);
     font-size: 1.2rem;
-    padding: 5px 10px;
     margin-bottom: 2px;
+  }
+
+  .container-item-item a{
+    text-decoration: none;
+    display: block;
+    color: white;
+    padding: 5px 10px;
   }
 
   .container-item-item:hover {

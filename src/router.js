@@ -50,8 +50,8 @@ const router = new Router({
               component: Problem
             },
             {
-              path: '/problem/create',
-              name: 'create-problem',
+              path: '/create/problem',
+              name: 'createProblem',
               component: CreateProblem
             },
             {
