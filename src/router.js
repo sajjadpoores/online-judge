@@ -101,6 +101,8 @@ router.beforeEach((to, from, next) => {
 
   if (to.path === '/logout') {
     Vue.cookie.delete('auth')
+    router.push({ name: 'home' })
+    return
   }
 
   checkAuthentication(jwt)

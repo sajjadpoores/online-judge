@@ -10,7 +10,7 @@
       <div class="profile-view-content">
           <!-- avatar column -->
         <div class="avatar-col">
-            <img id="avatarItself" :src="profileDetail.avatar_url" alt="">
+            <img id="avatarItself" :src="backendUrl + profileDetail.avatar_url" alt="">
             <input id="avatarInput" type="file" style="display:none;" accept="image/x-png,image/gif,image/jpeg" @change="imageSelected"/>
             <button class="upload-btn" onclick="document.getElementById('avatarInput').click();">آپلود تصویر</button>
             <div alt=""></div>
@@ -300,8 +300,13 @@ export default {
                 var newPasswordData = newPasswordInput.value
                 var reNewPasswordData = reNewPasswordInput.value
                 
+                // doing data validation
                 if(newPasswordData !== reNewPasswordData){
                     this.passwordError = 'پسورد و تکرار آن یکسان نمی باشد.'
+                    return
+                }
+                else if(newPasswordData.length < 8){
+                    this.passwordError = 'پسورد باید حداقل ۸ کاراکتر باشد.'
                     return
                 }
 
