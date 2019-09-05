@@ -203,7 +203,6 @@ export default {
     name: "profile",
     data(){
         return {
-            // TODO: add profile response here
             profileDetail: {
                 username: null,
                 email: null,
@@ -393,7 +392,6 @@ export default {
         ...mapState(['backendUrl'])
     },
     mounted(){
-        // 
         const jwt = this.$cookie.get('auth')
 
         axios.get('http://178.22.122.251:3000/profile', {
@@ -404,6 +402,9 @@ export default {
             this.formData = this.profileDetail = response.data.body
         })
         .catch((error) => {
+            // redirect home in case user is unathorized
+            if(error.response.status === 401)
+                router.push({ name: 'home' })
         //  do nothing
         })
     }

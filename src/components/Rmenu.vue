@@ -10,11 +10,15 @@
         </div>
 
 
+            <div class="center-item rmenu-item rmenu-head">
+                {{ profileDetail.username }}
+            </div>
+
             <div class="rmenu-close-btn" @click="close_rmenu">
                 &times;
             </div>
             <div class="rmenu-photo">
-                <img src="@/assets/img/profile.jpg" alt="">
+                <img :src="backendUrl + profileDetail.avatar_url" alt="">
             </div>
 
             <div class="rmenu-item rmenu-head">
@@ -47,6 +51,8 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway'
+import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
     name: "Rmenu",
@@ -55,7 +61,15 @@ export default {
         return {
             rmenu: null,
             rmenuTogglerBtn: null,
-            rmenuTogglerDiv: null
+            rmenuTogglerDiv: null,
+            profileDetail: {
+                username: null,
+                email: null,
+                phone: null,
+                nationalID: null,
+                studentID: null,
+                avatar_url: null
+            },
         }
     },
     methods: {
@@ -71,10 +85,29 @@ export default {
           this.rmenuTogglerDiv.style.opacity = "0"
       }
     },
+    computed: {
+      ...mapState(['backendUrl']),
+    },
     mounted(){
         this.rmenu = document.getElementById('rmenu')
         this.rmenuTogglerDiv = document.getElementById('rmenu-toggler-div')
         this.rmenuTogglerBtn = document.getElementById('rmenu-toggler-btn')
+
+        const jwt = this.$cookie.get('auth')
+
+        axios.get('http://178.22.122.251:3000/profile', {
+            headers: {
+                Authorization: jwt
+            }
+        }).then(response => {
+            this.formData = this.profileDetail = response.data.body
+        })
+        .catch((error) => {
+            // redirect home in case user is unathorized
+            if(error.response.status === 401)
+                router.push({ name: 'home' })
+            //  do nothing
+        })
     }
 }
 </script>
@@ -150,6 +183,11 @@ export default {
   margin-right: auto;
 }
 
+.center-item{
+  align-self: center;
+  color: var(--greenest) !important;
+  text-transform: capitalize;
+}
 /* rmenu fades away on tablet size screen */
 @media screen and (min-width: 601px) {
   .rmenu .rmenu-close-btn {
