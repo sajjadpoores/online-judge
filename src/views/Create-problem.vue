@@ -173,6 +173,8 @@ export default {
   .ptext textarea{
     width: 100%;
     margin: 20px 0;
+    font-family: "vazir", sans-serif;
+    padding: 10px;
   }
 
   .psubmit {
