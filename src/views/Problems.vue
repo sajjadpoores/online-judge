@@ -16,137 +16,21 @@
             عنوان
         </span>
 
-        <span class="p-wide-item">
-            برچسب
-        </span>
-
-        <span class="p-item">
-            تعداد حل
-        </span>
-
         <span class="p-thin-item"></span>
     </div>
     <!-- end of problems table head -->
 
     <!-- problems table body -->
     <div class="p-body">
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
+        <div class="p-row" v-for="(problem, index) in problems" :key="problem.id">
+            <span class="p-thin-item">{{ index | plus_one }}</span>
 
             <span class="p-wide-item">
-                <a href="#">چه کسی پنیر مرا برداشته</a>
-            </span>
-
-            <span class="p-wide-item">
-            بازگشتی
-            </span>
-
-            <span class="p-item">
-            120
+                <router-link to="#">{{ problem.name }}</router-link>
             </span>
 
             <span class="p-thin-item">
                 <font-awesome-icon icon="check"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-wide-item">
-                <a href="#">چه کسی پنیر مرا برداشته</a>
-            </span>
-
-            <span class="p-wide-item">
-            بازگشتی
-            </span>
-
-            <span class="p-item">
-            120
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="check"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a>
-            </span>
-
-            <span class="p-wide-item">
-            بازگشتی
-            </span>
-
-            <span class="p-item">
-            120
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="times"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
-
-            <span class="p-wide-item">
-            بازگشتی
-            </span>
-
-            <span class="p-item">
-            120
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="check"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
-
-            <span class="p-wide-item">
-            بازگشتی
-            </span>
-
-            <span class="p-item">
-            120
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="check"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
-
-            <span class="p-wide-item">
-            بازگشتی
-            </span>
-
-            <span class="p-item">
-            120
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="times"></font-awesome-icon>
             </span>
         </div>
 
@@ -173,8 +57,23 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
-    name: "problems"
+    name: "problems",
+    computed: {
+        ...mapState(['problems']),
+    },
+    methods: {
+        ...mapActions(['getProblems'])
+    },
+    mounted(){
+        this.getProblems()
+    },
+    filters: {
+        plus_one(index){
+            return index + 1
+        }
+    }
 }
 </script>
 

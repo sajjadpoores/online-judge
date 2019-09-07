@@ -14,11 +14,15 @@ export default new Vuex.Store({
       nationalID: null,
       studentID: null,
       avatar_url: null
-    }
+    },
+    problems: []
   },
   mutations: {
     updateProfile (state, profile) {
       state.profileDetail = profile
+    },
+    updateProblems (state, problems) {
+      state.problems = problems
     }
   },
   actions: {
@@ -45,6 +49,21 @@ export default new Vuex.Store({
     },
     updateProfile ({ commit }, profile) {
       commit('updateProfile', profile)
+    },
+    getProblems ({ commit }, jwt) {
+      axios
+        .get(this.state.backendUrl + '/problem/all', {
+          headers: {
+            Authorization: jwt
+          }
+        })
+        .then(response => {
+          var problems = response.data.body
+          commit('updateProblems', problems)
+        })
+        .catch(error => {
+          console.log(error.response)
+        })
     }
   }
 })
