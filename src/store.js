@@ -19,18 +19,20 @@ export default new Vuex.Store({
   mutations: {
     updateProfile (state, profile) {
       state.profileDetail = profile
-    },
-    downloadProfile (state, jwt) {
+    }
+  },
+  actions: {
+    getProfile ({ commit }, jwt) {
       // if state is not already updated
-      if (state.profileDetail.username === null) {
+      if (this.state.profileDetail.username === null) {
         axios
-          .get('http://178.22.122.251:3000/profile', {
+          .get(this.state.backendUrl + '/profile', {
             headers: {
               Authorization: jwt
             }
           })
           .then(response => {
-            state.profileDetail = response.data.body
+            commit('updateProfile', response.data.body)
           })
           .catch(error => {
             // redirect home in case user is unathorized
@@ -40,11 +42,6 @@ export default new Vuex.Store({
             //  do nothing
           })
       }
-    }
-  },
-  actions: {
-    getProfile ({ commit }, jwt) {
-      commit('downloadProfile', jwt)
     },
     updateProfile ({ commit }, profile) {
       commit('updateProfile', profile)

@@ -164,7 +164,6 @@ export default {
     },
     mounted(){
         this.mnav_drop_container = document.getElementById("mnav-drop-container")
-        this.getProfile
 
         const jwt = this.$cookie.get('auth')
         this.getProfile(jwt)

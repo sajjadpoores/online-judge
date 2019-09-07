@@ -401,7 +401,7 @@ export default {
     mounted(){
         const jwt = this.$cookie.get('auth')
 
-        axios.get('http://178.22.122.251:3000/profile', {
+        axios.get(this.backendUrl + '/profile', {
             headers: {
                 Authorization: jwt
             }

@@ -53,6 +53,15 @@ export default {
       ...mapState(['backendUrl'])
     },
     methods: {
+      b64EncodeUnicode(str) {
+        // first we use encodeURIComponent to get percent-encoded UTF-8,
+        // then we convert the percent encodings into raw bytes which
+        // can be fed into btoa.
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            function toSolidBytes(match, p1) {
+                return String.fromCharCode('0x' + p1);
+        }));
+      },
       createProblem(e){
         e.preventDefault()
 
@@ -80,8 +89,7 @@ export default {
         data.append('memlimit', memory)
         data.append('outputLimit', output)
         data.append('testcase', testcase)
-        data.append('content', btoa(content))
-        console.log(btoa(content))
+        data.append('content', this.b64EncodeUnicode(content))
 
         // get jwt authentication
         const jwt = this.$cookie.get('auth')
