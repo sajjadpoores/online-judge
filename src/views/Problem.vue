@@ -84,9 +84,10 @@
       <!-- end of problem example -->
       
       <!-- problem submit -->
-      <form action="" class="problem-section p-submit">
-        <h2 for="code">ارسال فایل</h2>
-        <input type="file" name="code" />
+      <form action="" class="problem-section p-submit" @submit="submitCode">
+        <h2>ارسال فایل</h2>
+        <input type="file" id="codeInput" />
+        <button type="submit" class="submit-btn">ارسال</button>
       </form>
       <!-- end of problem submit -->
   </div>
@@ -94,6 +95,8 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import router from '@/router.js'
+import axios from 'axios'
 export default {
     name: "problem",
     data() {
@@ -105,7 +108,7 @@ export default {
       'pid'
     ],
     computed: {
-        ...mapState(['problems'])
+        ...mapState(['problems', 'backendUrl'])
     },
     methods: {
         ...mapActions(['getProblems']),
@@ -143,6 +146,29 @@ export default {
                     return this.b64DecodeUnicode(output[4])
             }
             return ''
+        },
+        submitCode(e) {
+            e.preventDefault()
+            var codeInput = document.getElementById('codeInput')
+            var code = codeInput.files[0]
+
+            var data = new FormData()
+            data.append('language', 'cpp')
+            data.append('code', code)
+
+            const jwt = this.$cookie.get('auth')
+            axios.post(this.backendUrl + '/problem/' + this.pid + '/submissions', data, 
+            {
+                headers: {
+                    Authorization: jwt
+                }
+            }).then(response => {
+                  router.push({ name: 'history'})
+            }).catch(error => {
+                console.log(error.response)
+                if(error.response.status === 401)
+                    router.push({ name: 'home' })
+            })
         }
     },
     mounted() {
@@ -222,6 +248,18 @@ export default {
   text-align: center;
 }
 
+.p-submit .submit-btn {
+    align-self: center;
+    margin: 20px 0;
+    padding: 5px 20px;
+    border: 0;
+    border-radius: 5px;
+
+    background-color: var(--greenest);
+    color: white;
+    font-size: 1.3rem;
+    font-family: "vazir", sans-serif;
+ }
 /* problem example */
 .problem-section {
   margin: 15px 0;
@@ -251,5 +289,6 @@ export default {
   font-size: 1.3rem;
   color: var(--dark-blue);
  }
+
 /* end of problem example */
 </style>

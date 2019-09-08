@@ -67,6 +67,7 @@
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
+import router from '@/router.js'
 export default {
     name: "createProblem",
     computed: {
@@ -138,7 +139,7 @@ export default {
         }
         ).then(response => {
           console.log(response)
-        }).catch(errpr => {
+        }).catch(error => {
           if(error.response.status === 401)
             router.push({ name: 'home' })
           console.log(error.response)
