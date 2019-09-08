@@ -22,11 +22,11 @@
 
     <!-- problems table body -->
     <div class="p-body">
-        <div class="p-row" v-for="(problem, index) in problems" :key="problem.id">
-            <span class="p-thin-item">{{ index | plus_one }}</span>
+        <div class="p-row" v-for="(problem, index) in computeIndex" :key="problem.problemID">
+            <span class="p-thin-item">{{ index | getIndexByPage(page) }}</span>
 
             <span class="p-wide-item">
-                <router-link to="#">{{ problem.name }}</router-link>
+                <router-link :to="problemLink(problem.problemID)"> {{ problem.name }}</router-link>
             </span>
 
             <span class="p-thin-item">
@@ -36,20 +36,15 @@
 
         <div class="p-row pagination-container">
             <div class="pagination-btns-container">
-                <div class="pagination-btn pagination-arrow">
+                <div class="pagination-btn pagination-arrow" :class="[(page +1)*5 + 1 > problems.length ? 'disabled': '']" @click="nextPage">
                     <font-awesome-icon icon="angle-right"></font-awesome-icon>
                 </div>
 
-                <div class="pagination-btn selected-number">1</div>
-                <div class="pagination-btn">2</div>
-                <div class="pagination-btn">3</div>
-                <div class="pagination-btn">...</div>
-                <div class="pagination-btn">21</div>
-                <div class="pagination-btn pagination-arrow">
+                <div class="pagination-btn selected-number">{{ page | plus_one }}</div>
+                <div class="pagination-btn pagination-arrow" @click="pervPage" :class="{disabled: page === 0}">
                     <font-awesome-icon icon="angle-left"></font-awesome-icon>
                 </div>
             </div>
-            <p class="pagination-info">۲۰ از ۴۲۰ سوال</p>
         </div>
     </div>
     <!-- end of problems table body -->
@@ -60,11 +55,31 @@
 import { mapState, mapActions } from 'vuex'
 export default {
     name: "problems",
+    data() {
+        return {
+            page: 0,
+            local_problems: [],
+            has_next: true
+        }
+    },
     computed: {
         ...mapState(['problems']),
+        computeIndex(){
+            this.local_problems = this.problems.slice(this.page*5, this.page*5+5)
+            return this.local_problems
+        }
     },
     methods: {
-        ...mapActions(['getProblems'])
+        ...mapActions(['getProblems']),
+        nextPage(){
+            this.page++
+        },
+        pervPage(){
+            this.page--
+        },
+        problemLink(id){
+            return `/problem/${id}`
+        }
     },
     mounted(){
         this.getProblems()
@@ -72,6 +87,9 @@ export default {
     filters: {
         plus_one(index){
             return index + 1
+        },
+        getIndexByPage(index, page){
+            return page*5 + index + 1
         }
     }
 }
@@ -169,13 +187,7 @@ export default {
     flex-wrap: wrap;
 }
 
-.pagination-info {
-    flex-basis: 30%;
-    white-space: nowrap;
-}
-
 .pagination-btns-container {
-    flex-basis: 65%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -203,6 +215,18 @@ export default {
     background-color: white;
     color: var(--greenest);
     cursor: default;
+}
+
+.disabled{
+    background-color: gray;
+    cursor: default;
+    color: white
+}
+
+.disabled:hover {
+    background-color: gray;
+    cursor: default;
+    color: white
 }
 /* end of pagination */
 
