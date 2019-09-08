@@ -38,6 +38,10 @@
                 </div>
                 
                 <div class="full-width-on-mobile nav-item">
+                  <router-link to="/history">ارسال ها</router-link>
+                </div>
+
+                <div class="full-width-on-mobile nav-item">
                   <router-link to="/contests">مسابقات</router-link>
                 </div>
 
@@ -94,9 +98,12 @@
             </div>
 
             <div class="mnav-item">
-                <router-link to="/contests">مسابقات</router-link>
+                <router-link to="/history">ارسال ها</router-link>
             </div>
 
+            <div class="mnav-item">
+                <router-link to="/contests">مسابقات</router-link>
+            </div>
         </nav>
         <!-- end of mobile nav -->
 
@@ -204,6 +211,7 @@ export default {
 .nav-item {
   align-self: center;
   margin: 7px;
+  white-space: nowrap;
 }
 
 .nav-second .nav-item {
@@ -235,7 +243,7 @@ export default {
 }
 
 /* mobile size screen */
-@media screen and (max-width: 545px) {
+@media screen and (max-width: 600px) {
   .nav {
     flex-direction: column;
   }
@@ -358,7 +366,7 @@ export default {
 .mobile-nav {
   display: none;
 }
-@media screen and (max-width: 545px) {
+@media screen and (max-width: 600px) {
   .nav {
     display: none;
   }
