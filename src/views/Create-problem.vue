@@ -31,6 +31,26 @@
           <textarea type="text" rows="15" id="contentTextarea"></textarea>
         </div>
 
+        <div class="psection ptext">
+          <label>ورودی</label>
+          <textarea type="text" rows="5" id="inputTextarea"></textarea>
+        </div>
+
+        <div class="psection ptext">
+          <label>خروجی</label>
+          <textarea type="text" rows="5" id="outputTextarea"></textarea>
+        </div>
+
+        <div class="psection ptext">
+          <label>نمونه ورودی</label>
+          <textarea type="text" rows="5" id="inputExampleTextarea"></textarea>
+        </div>
+
+        <div class="psection ptext">
+          <label>نمونه خروجی</label>
+          <textarea type="text" rows="5" id="outputExampleTextarea"></textarea>
+        </div>
+
         <div class="psection ptestcase">
           <label>فایل تست کیس ها</label>
           <input type="file" id="testcaseInput" value="400">
@@ -80,6 +100,22 @@ export default {
         var contentTextarea = document.getElementById('contentTextarea')
         var content = contentTextarea.value
 
+        var inputTextarea = document.getElementById('inputTextarea')
+        var inputFormat = inputTextarea.value
+
+        var outputTextarea = document.getElementById('outputTextarea')
+        var outputFormat = outputTextarea.value
+
+        var inputExampleTextarea = document.getElementById('inputExampleTextarea')
+        var inputExample = inputExampleTextarea.value
+
+        var outoutExampleTextarea = document.getElementById('outputExampleTextarea')
+        var outputExample = outputExampleTextarea.value
+
+        var finalContent = this.b64EncodeUnicode(content) + '!-_-!' + this.b64EncodeUnicode(inputFormat) + '!-_-!' + this.b64EncodeUnicode(outputFormat) + '!-_-!' + this.b64EncodeUnicode(inputExample) + '!-_-!' + this.b64EncodeUnicode(outputExample)
+
+        finalContent = this.b64EncodeUnicode(finalContent)
+
         var testcaseInput = document.getElementById('testcaseInput')
         var testcase = testcaseInput.files[0]
 
@@ -89,7 +125,7 @@ export default {
         data.append('memlimit', memory)
         data.append('outputLimit', output)
         data.append('testcase', testcase)
-        data.append('content', this.b64EncodeUnicode(content))
+        data.append('content', finalContent)
 
         // get jwt authentication
         const jwt = this.$cookie.get('auth')

@@ -71,15 +71,13 @@
         <div class="problem-example-input">
           <h3>ورودی نمونه</h3>
           <pre>
-1
-2
-3
+{{ parseContent('exampleInput') }}
           </pre>
         </div>
         <div class="problem-example-output">
           <h3>خروجی نمونه</h3>
           <pre>
-14
+{{ parseContent('exampleOutput') }}
           </pre>
         </div>
       </div>
@@ -100,7 +98,7 @@ export default {
     name: "problem",
     data() {
         return {
-            problem: {name: 'wait...'}
+            problem: {}
         }
     },
     props: [
@@ -113,22 +111,38 @@ export default {
         ...mapActions(['getProblems']),
         findProblemFromProblems(){
             for(var i=0; i< this.problems.length; i++){
-                    if(this.problems[i].problemID === this.pid){
-                        this.problem = this.problems[i]
-                        break;
-                    }
+                if(this.problems[i].problemID === this.pid){
+                    this.problem = this.problems[i]
+                    break;
                 }
+            }
         },
         b64DecodeUnicode(str) {
-            // Going backwards: from bytestream, to percent-encoding, to original string.
-            if(!str)
+            if(str === undefined)
                 return ''
-            return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-            }).join(''))
+
+            // Going backwards: from bytestream, to percent-encoding, to original string.
+            return decodeURIComponent(atob(str).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
         },
         parseContent(mode){
-            return this.b64DecodeUnicode(this.problem.content)
+            if(this.problem.content){
+                var output = this.b64DecodeUnicode(this.problem.content)
+                var output = output.split('!-_-!')
+
+                if(mode === 'text')
+                    return this.b64DecodeUnicode(output[0])
+                else if(mode === 'input')
+                    return this.b64DecodeUnicode(output[1])
+                else if(mode === 'output')
+                    return this.b64DecodeUnicode(output[2])
+                else if(mode === 'exampleInput')
+                    return this.b64DecodeUnicode(output[3])
+                else if(mode === 'exampleOutput')
+                    return this.b64DecodeUnicode(output[4])
+            }
+            return ''
         }
     },
     mounted() {
@@ -215,6 +229,7 @@ export default {
   background-color: var(--verylight-blue);
   border-radius: 5px;
   color: var(--dark-blue);
+  word-break: break-all;
 }
 
 .problem-example > h2{
