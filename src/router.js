@@ -47,7 +47,8 @@ const router = new Router({
             {
               path: '/problem/:pid',
               name: 'problem',
-              component: Problem
+              component: Problem,
+              props: true
             },
             {
               path: '/create/problem',

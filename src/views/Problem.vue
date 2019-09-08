@@ -1,8 +1,9 @@
 <template>
   <div class="problem-view">
       <!-- problem title -->
+      <!-- v-if="problem" -->
       <div class="problem-section p-title">
-        چه کسی پنیر مرا برداشته؟
+        {{ problem.name }}
       </div>
       <!-- end of problem title -->
 
@@ -13,7 +14,7 @@
             محدودیت زمان:
           </div>
           <div class="rvalue">
-            ۲ ثانیه
+            {{ problem.timelimit}} ثانیه
           </div>
         </div>
 
@@ -22,15 +23,25 @@
             محدودیت حافظه:
           </div>
           <div class="rvalue">
-            ۲۵۶ مگابایت
+            {{ problem.memorylimit}} مگابایت
           </div>
         </div>
+
+        <div class="rcontent">
+          <div class="rkey">
+            محدودیت خروجی:
+          </div>
+          <div class="rvalue">
+            {{ problem.outputlimit}} 
+          </div>
+        </div>
+
       </div>
       <!-- end of problem restrictions -->
 
       <!-- problem text -->
       <div class="problem-section p-text">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio possimus soluta nam. Quae possimus commodi sequi, laborum dolores esse libero minus corrupti excepturi doloribus suscipit id, amet error magnam cum consequuntur neque eligendi facere delectus soluta similique ducimus rem perferendis? Voluptas fuga impedit consectetur quos, reiciendis debitis accusantium nisi, ad, dolor quisquam sit tenetur. Cupiditate ullam aliquid ratione laudantium, officia, repellendus eveniet modi quam odio quas soluta mollitia totam voluptas beatae sed dolore illum voluptate eum, nam error sint iste sunt reprehenderit! Voluptates molestias facilis quidem accusamus repellat laudantium mollitia dicta neque! Tenetur blanditiis molestias asperiores itaque eligendi rerum doloremque ipsam illo placeat, neque dolor consectetur, in ullam ratione minus, sint mollitia? Iusto maiores debitis perspiciatis, in laudantium ea placeat. Minima, voluptatibus. Quaerat reprehenderit molestias explicabo corrupti sunt corporis quibusdam, tempore ea reiciendis, magnam consequuntur facere! Ea dolorem magni aperiam possimus minima vitae odit voluptatibus voluptate nihil velit magnam, cum modi? Magnam tempore atque itaque pariatur quidem unde repellat veritatis quisquam cum consequatur excepturi natus quae autem dolore ab dolores quas voluptatibus, corrupti aliquid beatae exercitationem ducimus quasi obcaecati deserunt. Fugiat quod veniam perspiciatis illum aperiam expedita modi sint facilis?
+        {{ parseContent('text') }}
       </div>
       <!-- end of problem text -->
 
@@ -38,8 +49,7 @@
       <div class="problem-section p-input-output p-input">
         <h2>ورودی</h2>
         <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus,
-          ullam.
+          {{ parseContent('input') }}
         </p>
       </div>
       <!-- end of problem input -->
@@ -48,8 +58,7 @@
       <div class="problem-section p-input-output p-output">
         <h2>خروجی</h2>
         <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus,
-          ullam.
+          {{ parseContent('output')}}
         </p>
       </div>
       <!-- end of problem output -->
@@ -86,8 +95,53 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
-    name: "problem"
+    name: "problem",
+    data() {
+        return {
+            problem: {name: 'wait...'}
+        }
+    },
+    props: [
+      'pid'
+    ],
+    computed: {
+        ...mapState(['problems'])
+    },
+    methods: {
+        ...mapActions(['getProblems']),
+        findProblemFromProblems(){
+            for(var i=0; i< this.problems.length; i++){
+                    if(this.problems[i].problemID === this.pid){
+                        this.problem = this.problems[i]
+                        break;
+                    }
+                }
+        },
+        b64DecodeUnicode(str) {
+            // Going backwards: from bytestream, to percent-encoding, to original string.
+            if(!str)
+                return ''
+            return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            }).join(''))
+        },
+        parseContent(mode){
+            return this.b64DecodeUnicode(this.problem.content)
+        }
+    },
+    mounted() {
+        // get all problems if problems array is empty
+        if(this.problems.length === 0){
+            this.getProblems().then(() => {
+                this.findProblemFromProblems()
+            })
+        }
+        else {
+            this.findProblemFromProblems()
+        }
+    }
 }
 </script>
 
