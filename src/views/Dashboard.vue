@@ -36,11 +36,11 @@
           </div>
 
           <div class="container-item-item">
-            ایجاد مسابقه جدید
+            <router-link :to="{name: 'createContest'}">ایجاد مسابقه جدید</router-link>
           </div>
 
           <div class="container-item-item">
-            مسابقات من
+            <router-link :to="{name: 'contests', params: {type: 'user'}}">مسابقات من</router-link>
           </div>
         </div>
       </div>
