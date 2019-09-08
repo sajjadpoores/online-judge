@@ -14,7 +14,7 @@
           </div>
 
           <div class="container-item-item">
-            بخش سوالات  
+            <router-link :to="{name: 'problems', params: {type: 'all'}}">بخش سوالات</router-link>
           </div>
 
           <div class="container-item-item">
@@ -22,7 +22,7 @@
           </div>
 
           <div class="container-item-item">
-            سوالات من
+            <router-link :to="{name: 'problems', params: {type: 'user'}}">سوالات من</router-link>
           </div>
         </div>
 
@@ -32,7 +32,7 @@
           </div>
 
           <div class="container-item-item">
-            بخش مسابقات 
+            <router-link :to="{name: 'contests', params: {type: 'all'}}">بخش مسابقات</router-link>
           </div>
 
           <div class="container-item-item">
