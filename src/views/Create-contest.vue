@@ -46,36 +46,6 @@
                     type="datetime"
                 />
 
-                <div class="psection ptext">
-                    <label>سوالات</label>
-                    <textarea type="text" rows="15" id="contentTextarea"></textarea>
-                </div>
-
-                <div class="psection ptext">
-                    <label>ورودی</label>
-                    <textarea type="text" rows="5" id="inputTextarea"></textarea>
-                </div>
-
-                <div class="psection ptext">
-                    <label>خروجی</label>
-                    <textarea type="text" rows="5" id="outputTextarea"></textarea>
-                </div>
-
-                <div class="psection ptext">
-                    <label>نمونه ورودی</label>
-                    <textarea type="text" rows="5" id="inputExampleTextarea"></textarea>
-                </div>
-
-                <div class="psection ptext">
-                    <label>نمونه خروجی</label>
-                    <textarea type="text" rows="5" id="outputExampleTextarea"></textarea>
-                </div>
-
-                <div class="psection ptestcase">
-                    <label>فایل تست کیس ها</label>
-                    <input type="file" id="testcaseInput" value="400">
-                </div>
-
                 <div class="psection psubmit">
                     <button type="submit">ایجاد</button>
                 </div>
@@ -85,6 +55,7 @@
 </template>
 
 <script>
+import moment from 'moment-jalaali';
 export default {
     name: "createContest",
     data() {
@@ -94,9 +65,15 @@ export default {
         }
     },
     methods: {
-        createContest() {
+        createContest(e) {
             e.preventDefault()
+            
+            var start = this.startDateTime
+            start = moment(this.startDateTime, 'jYYYY/jM/jD HH:mm').format('YYYY-MM-DDTHH:mm:ss+04:30')
 
+            var end = this.endDateTime
+            start = moment(this.endDateTime, 'jYYYY/jM/jD HH:mm').format('YYYY-MM-DDTHH:mm:ss+04:30')
+            console.log(start, end)
         }
     }
 }
