@@ -78,11 +78,11 @@
       <!-- Nav -->
         <nav class="nav">
             <div class="logo"><img src="@/assets/img/logo.png" alt="logo" /></div>
+            <a href="/dashboard" class="nav-item" v-if="$cookie.get('auth')">داشبورد</a>
             <a href="#" id="registerBtn" class="nav-item" @click="rbtnClick" v-if="!$cookie.get('auth')">ثبت نام</a>
             <a href="#" @click="lbtnClick" id="loginBtn" class="nav-item" v-if="!$cookie.get('auth')">ورود</a>
-            <a href="/problems" v-if="$cookie.get('auth')" class="nav-item">سوالات</a>
+            <a href="/problems/all" v-if="$cookie.get('auth')" class="nav-item">سوالات</a>
             <a href="/contests" v-if="$cookie.get('auth')" class="nav-item">مسابقات</a>
-            <a href="/dashboard" class="nav-item" v-if="$cookie.get('auth')">داشبورد</a>
             <a href="#" @click="logout" class="nav-item" v-if="$cookie.get('auth')">خروج</a>
         </nav>
       <!-- End of nav -->
@@ -239,7 +239,7 @@ export default {
       ).catch(
         error => {
           this.loginError = 'نام کاربری یا کلمه عبور اشتباه است'
-          console.log(error)
+          console.log(error.response)
         }
       )
     }

@@ -40,9 +40,10 @@ const router = new Router({
               component: Dashboard
             },
             {
-              path: '/problems',
+              path: '/problems/:type',
               name: 'problems',
-              component: Problems
+              component: Problems,
+              props: true
             },
             {
               path: '/problem/:pid',

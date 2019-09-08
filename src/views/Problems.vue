@@ -62,6 +62,9 @@ export default {
             has_next: true
         }
     },
+    props: {
+        type: String
+    },
     computed: {
         ...mapState(['problems']),
         computeIndex(){
@@ -82,7 +85,15 @@ export default {
         }
     },
     mounted(){
-        this.getProblems()
+        if(this.type === undefined)
+            this.type = 'all'
+        
+        if(this.type === 'all')
+            this.getProblems()
+        else{
+            var jwt = this.$cookie.get('auth')
+            this.getProblems('user')
+        }
     },
     filters: {
         plus_one(index){

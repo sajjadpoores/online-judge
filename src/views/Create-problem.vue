@@ -138,7 +138,7 @@ export default {
           }
         }
         ).then(response => {
-          console.log(response)
+          router.push({name: 'problems', params: {type: 'user'}})
         }).catch(error => {
           if(error.response.status === 401)
             router.push({ name: 'home' })

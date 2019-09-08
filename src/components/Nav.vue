@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="full-width-on-mobile nav-item">
-                  <router-link to="/problems">سوالات</router-link>
+                  <router-link to="/problems/all">سوالات</router-link>
                 </div>
                 
                 <div class="full-width-on-mobile nav-item">
@@ -94,7 +94,7 @@
             </div>
 
             <div class="mnav-item">
-                <router-link to="/problems">سوالات</router-link>
+                <router-link to="/problems/all">سوالات</router-link>
             </div>
 
             <div class="mnav-item">

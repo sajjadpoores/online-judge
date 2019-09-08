@@ -51,18 +51,42 @@ export default new Vuex.Store({
     updateProfile ({ commit }, profile) {
       commit('updateProfile', profile)
     },
-    getProblems ({ commit }) {
-      return axios
-        .get(this.state.backendUrl + '/problem/all')
-        .then(response => {
-          var problems = response.data.body
-          return commit('updateProblems', problems)
-        })
-        .catch(error => {
-          // redirect home in case user is unathorized
-          if (error.response.status === 401) this.$router.push({ name: 'home' })
-          console.log(error.response)
-        })
+    getProblems ({ commit }, type = 'all') {
+      if (type === 'user') {
+        var jwt = Vue.cookie.get('auth')
+        return axios
+          .get(this.state.backendUrl + '/problem', {
+            headers: {
+              Authorization: jwt
+            }
+          })
+          .then(response => {
+            var problems = response.data.body
+            console.log(response)
+            return commit('updateProblems', problems)
+          })
+          .catch(error => {
+            // redirect home in case user is unathorized
+            // if (error.response.status === 401) {
+            //   this.$router.push({ name: 'home' })
+            // }
+            console.log(error.response)
+          })
+      } else {
+        return axios
+          .get(this.state.backendUrl + '/problem/all')
+          .then(response => {
+            var problems = response.data.body
+            return commit('updateProblems', problems)
+          })
+          .catch(error => {
+            // redirect home in case user is unathorized
+            if (error.response.status === 401) {
+              this.$router.push({ name: 'home' })
+            }
+            console.log(error.response)
+          })
+      }
     }
   }
 })

@@ -159,9 +159,9 @@ export default {
             const jwt = this.$cookie.get('auth')
             axios.post(this.backendUrl + '/problem/' + this.pid + '/submissions', data, 
             {
-                headers: {
-                    Authorization: jwt
-                }
+              headers: {
+               Authorization: jwt
+            }
             }).then(response => {
                   router.push({ name: 'history'})
             }).catch(error => {
@@ -172,15 +172,10 @@ export default {
         }
     },
     mounted() {
-        // get all problems if problems array is empty
-        if(this.problems.length === 0){
-            this.getProblems().then(() => {
-                this.findProblemFromProblems()
-            })
-        }
-        else {
-            this.findProblemFromProblems()
-        }
+      // get all problems if problems array is empty
+      this.getProblems().then(() => {
+          this.findProblemFromProblems()
+      })
     }
 }
 </script>
