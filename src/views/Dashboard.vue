@@ -14,15 +14,15 @@
           </div>
 
           <div class="container-item-item">
-            <router-link :to="{name: 'problems', params: {type: 'all'}}">بخش سوالات</router-link>
+            <router-link :to="{ name: 'problems', params: {type: 'all'}}">بخش سوالات</router-link>
           </div>
 
           <div class="container-item-item">
-            <router-link :to="{name: 'createProblem'}">ایجاد سوال جدید</router-link>
+            <router-link :to="{ name: 'createProblem'}">ایجاد سوال جدید</router-link>
           </div>
 
           <div class="container-item-item">
-            <router-link :to="{name: 'problems', params: {type: 'user'}}">سوالات من</router-link>
+            <router-link :to="{ name: 'problems', params: {type: 'user'}}">سوالات من</router-link>
           </div>
         </div>
 
@@ -32,15 +32,15 @@
           </div>
 
           <div class="container-item-item">
-            <router-link :to="{name: 'contests', params: {type: 'all'}}">بخش مسابقات</router-link>
+            <router-link :to="{ name: 'contests', params: {type: 'all'}}">بخش مسابقات</router-link>
           </div>
 
           <div class="container-item-item">
-            <router-link :to="{name: 'createContest'}">ایجاد مسابقه جدید</router-link>
+            <router-link :to="{ name: 'CreateContest'}">ایجاد مسابقه جدید</router-link>
           </div>
 
           <div class="container-item-item">
-            <router-link :to="{name: 'contests', params: {type: 'user'}}">مسابقات من</router-link>
+            <router-link :to="{ name: 'contests', params: {type: 'user'}}">مسابقات من</router-link>
           </div>
         </div>
       </div>

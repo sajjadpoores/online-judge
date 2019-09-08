@@ -178,7 +178,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 8px 0;
+    margin: 10px 0;
   }
 
   @media screen and (max-width: 680px) {
@@ -192,10 +192,11 @@ export default {
   }
 
   .psection input {
-      padding: 4px;
+      padding: 6px;
       border: 0;
       border-radius: 5px;
       text-align: center;
+      flex-basis: 70%;
   }
 
   .ptext {

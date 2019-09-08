@@ -12,7 +12,9 @@ import CreateProblem from './views/Create-problem.vue'
 import SubmitHistory from './views/Submit-history.vue'
 import Contests from './views/Contests.vue'
 import Contest from './views/Contest.vue'
+import createContest from './views/Create-contest.vue'
 import Test from './views/Test.vue'
+import store from './store'
 
 Vue.use(Router)
 const router = new Router({
@@ -70,6 +72,11 @@ const router = new Router({
               path: '/contest/:cid',
               name: 'contest',
               component: Contest
+            },
+            {
+              path: '/create/contest',
+              name: 'CreateContest',
+              component: createContest
             }
           ]
         },
@@ -90,7 +97,7 @@ const router = new Router({
 
 function checkAuthentication (jwt) {
   axios
-    .get('http://178.22.122.251:3000/profile', {
+    .get(store.state.backendUrl + '/profile', {
       headers: {
         Authorization: jwt
       }
