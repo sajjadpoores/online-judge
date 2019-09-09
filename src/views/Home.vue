@@ -7,7 +7,9 @@
             <span @click="rCloseBtnClick" id="rCloseBtn" class="close-btn">&times;</span>
             <form class="modalForm" @submit="register">
               <!-- error and success messages -->
-              <p class="formError">{{ registerError }}</p>
+              <p class="formError">
+                <span v-for="error in registerError" :key="error">{{ error }}</span>
+              </p>
               <p class="formSuccess">{{ registerSuccess }}</p>
               
                 <div class="form-group">
@@ -50,7 +52,9 @@
             <h2 class="modal-title">ورود</h2>
             <span @click="lCloseBtnClick" id="lCloseBtn" class="close-btn">&times;</span>
             <form class="modalForm" @submit="login">
-                <p class="formError">{{ loginError }}</p>
+                <p class="formError">
+                  <span v-for="error in loginError" :key="error">{{ error }}</span>
+                </p>
                 <div class="form-group">
                     <!-- <i class="fa fa-user"></i> -->
                     <font-awesome-icon icon="user" class="form-icon" />
@@ -149,15 +153,36 @@ export default {
     windowClick(event){
         if (event.target == this.rModal) {
           this.rModal.style.display = 'none'
+          this.cleanModals()
         } else if (event.target == this.lModal) {
           this.lModal.style.display = 'none'
+          this.cleanModals()
         }
     },
     rCloseBtnClick(){
       this.rModal.style.display = 'none'
+      this.cleanModals()
     },
     lCloseBtnClick(){
       this.lModal.style.display = 'none'
+      this.cleanModals()
+    },
+    cleanModals(){
+      // clear form messages
+      this.registerError = null
+      this.registerSuccess = null
+      this.loginError = null
+
+      const rUsername = document.getElementById('registerUsername')
+      rUsername.value = ''
+      const rPassword = document.getElementById('registerPassword')
+      rPassword.value = ''
+      const rRePassword = document.getElementById('registerRePassword')
+      rRePassword.value = ''
+      const lUsername = document.getElementById('loginUsername')
+      lUsername.value = ''
+      const lPassword = document.getElementById('loginPassword')
+      lPassword.value = ''
     },
     logout(){
       this.$cookie.delete('auth')
@@ -180,7 +205,7 @@ export default {
       const submitButton = document.getElementById('registerSubmit')
 
       if(rePassword !== password){
-        this.registerError = 'کلمه عبور و تکرار آن یکسان نیست'
+        this.registerError = ['کلمه عبور و تکرار آن یکسان نیست']
         return
       }
 
@@ -206,11 +231,14 @@ export default {
         }
       ).catch(
         error => {
-          this.registerError = 'کلمه عبور باید حداقل ۸ کاراکتر و ترکیبی از حرف و عدد باشد'
-
-          if(error.response.data.type === 'duplicateUser')
-            this.registerError = 'نام کاربری تکراری می باشد.'
-          console.log(error.response)
+           if(error.response.data.info) {
+            if (Array.isArray(error.response.data.info))
+              this.registerError = [...error.response.data.info]
+            else
+              this.registerError = [error.response.data.info]
+          }
+          else // in case error is unknown!
+            console.log(error.response)
         }
       )
     },
@@ -238,8 +266,14 @@ export default {
         }
       ).catch(
         error => {
-          this.loginError = 'نام کاربری یا کلمه عبور اشتباه است'
-          console.log(error.response)
+          if(error.response.data.info) {
+            if (Array.isArray(error.response.data.info))
+              this.loginError = [...error.response.data.info]
+            else
+              this.loginError = [error.response.data.info]
+          }
+          else // in case error is unknown!
+            console.log(error.response)
         }
       )
     }
