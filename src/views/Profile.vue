@@ -45,7 +45,8 @@
                         id="passwordInput"
                         >
                         
-                        <div class="validationError" v-if="passwordError">{{ passwordError }}</div>
+                        <span class="validationError" 
+                        id="passwordValidationError" v-if="passwordError">{{ passwordError }}</span>
 
                         <input type="password" placeholder="پسورد جدید" 
                         v-if="doingEdit.password" class="nice-input"
@@ -71,15 +72,19 @@
                     ایمیل
                 </div>
                 <div class="detail-item-value">
-                    <input type="email" 
-                    class="nice-input"
-                    :value="profileDetail.email"
-                    :disabled="!doingEdit.email"
-                    id="emailInput"
-                    >
+                    <div class="multiple-input-container">
+                        <span class="validationError" id="emailValidationError"></span>
+
+                        <input type="email" 
+                        class="nice-input"
+                        :value="profileDetail.email"
+                        :disabled="!doingEdit.email"
+                        id="emailInput"
+                        >
+                    </div>
 
                     <font-awesome-icon class="clickable"
-                        @click="editNormalField('emailInput', 'email')"
+                        @click="editNormalField('emailInput', 'email', 'emailValidationError')"
                         :icon="['fas', doingEdit.email ? 'check' : 'edit']" 
                     />
                 </div>
@@ -89,16 +94,22 @@
                 <div class="detail-item-key">
                     شماره دانشجویی
                 </div>
-                <div class="detail-item-value">
-                    <input type="text" 
-                        class="nice-input"
-                        :value="profileDetail.studentID"
-                        :disabled="!doingEdit.studentID"
-                        id="studentIDInput"
-                    >
 
-                    <font-awesome-icon class="clickable"
-                        @click="editNormalField('studentIDInput', 'studentID')"
+                <div class="detail-item-value">
+                    <div class="multiple-input-container">
+                        <span class="validationError" id="studentValidationError"></span>
+
+                        <div class="detail-item-value">
+                            <input type="text" 
+                                class="nice-input"
+                                :value="profileDetail.studentID"
+                                :disabled="!doingEdit.studentID"
+                                id="studentIDInput"
+                            >
+                        </div>
+                    </div>
+                    <font-awesome-icon    class="clickable"
+                        @click="editNormalField('studentIDInput', 'studentID', 'studentValidationError')"
                         :icon="['fas', doingEdit.studentID ? 'check' : 'edit']" 
                     />
                 </div>
@@ -110,15 +121,19 @@
                     شماره ملی
                 </div>
                 <div class="detail-item-value">
-                    <input type="text" 
-                        id="nationalIDInput"
-                        class="nice-input"
-                        :value="profileDetail.nationalID"
-                        :disabled="!doingEdit.nationalID"
-                    >
+                    <div class="multiple-input-container">
+                        <span class="validationError" id="nationalValidationError"></span>
+
+                        <input type="text" 
+                            id="nationalIDInput"
+                            class="nice-input"
+                            :value="profileDetail.nationalID"
+                            :disabled="!doingEdit.nationalID"
+                        >
+                    </div>
 
                     <font-awesome-icon class="clickable"
-                        @click="editNormalField('nationalIDInput', 'nationalID')"
+                        @click="editNormalField('nationalIDInput', 'nationalID', 'nationalValidationError')"
                         :icon="['fas', doingEdit.nationalID ? 'check' : 'edit']" 
                     />
                 </div>
@@ -129,17 +144,21 @@
                     شماره تلفن
                 </div>
                 <div class="detail-item-value">
-                    <input type="text"
-                    id="phoneInput"
-                    class="nice-input"
-                    :disabled="!doingEdit.phone"
-                    :value="profileDetail.phone"
-                    >
+                    <div class="multiple-input-container">
+                        <span class="validationError" id="phoneValidationError"></span>
+
+                        <input type="text"
+                        id="phoneInput"
+                        class="nice-input"
+                        :disabled="!doingEdit.phone"
+                        :value="profileDetail.phone"
+                        >
+                    </div>
 
                     <font-awesome-icon 
                         :icon="['fas', doingEdit.phone   ? 'check' : 'edit']" 
                         class="clickable"
-                        @click="editNormalField('phoneInput', 'phone')"
+                        @click="editNormalField('phoneInput', 'phone', 'phoneValidationError')"
                     />
                 </div>
             </div>
@@ -151,13 +170,7 @@
                     سوالات حل شده
                 </div>
                 <div class="detail-label-item-values">
-                    <div class="detail-label-item-value">1323</div>
-                    <div class="detail-label-item-value">1253</div>
-                    <div class="detail-label-item-value">1263</div>
-                    <div class="detail-label-item-value">4323</div>
-                    <div class="detail-label-item-value">564</div>
-                    <div class="detail-label-item-value">6424</div>
-                    <div class="detail-label-item-value">22311</div>
+                    <div class="detail-label-item-value">951</div>
                 </div>
             </div>
 
@@ -168,22 +181,6 @@
                 </div>
                 <div class="detail-label-item-values">
                     <div class="detail-label-item-value">1323</div>
-                    <div class="detail-label-item-value">1253</div>
-                    <div class="detail-label-item-value">1263</div>
-                    <div class="detail-label-item-value">4323</div>
-                    <div class="detail-label-item-value">564</div>
-                    <div class="detail-label-item-value">6424</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
-                    <div class="detail-label-item-value">22311</div>
 
                 </div>
             </div>
@@ -199,6 +196,7 @@
 import axios from 'axios'
 import { mapState, mapActions } from 'vuex'
 import router from '@/router.js'
+import { truncate } from 'fs';
 export default {
     name: "profile",
     data(){
@@ -294,10 +292,10 @@ export default {
             var passwordInput = document.getElementById('passwordInput')
             var newPasswordInput = document.getElementById('newPasswordInput')
             var reNewPasswordInput = document.getElementById('reNewPasswordInput')
-
             // if user wants to submit change
             if(this.doingEdit.password){
                 // gather info and create proper data
+
                 var passwordData = passwordInput.value
                 var newPasswordData = newPasswordInput.value
                 var reNewPasswordData = reNewPasswordInput.value
@@ -328,24 +326,30 @@ export default {
                 }
                 ).then(response => {
                     // seccess
-                    this.profileDetail[fieldName] = newFieldData
-                    // update store state
-                    this.updateProfile(this.profileDetail)
                 }).catch(error => {
+                    // show error
+                    console.log(error)
                     // failed
                     // redirect home in case user is unathorized
                     if(error.response.status === 401)
                         router.push({ name: 'home' })
 
                     this.passwordError = 'پسورد اشتباه است'
-                    // show error
-                    console.log(error)
                 })
 
                 // disable field
                 this.doingEdit.password = false
             }
             else { // else if user wants to being able to edit the field
+
+                    // close other fields if they are open
+                this.doingEdit = {
+                    email: false,
+                    phone: false,
+                    nationalID: false,
+                    studentID: false,
+                    avatar_url: false
+                }
                 // enable the field
                 this.doingEdit.password = true
 
@@ -353,12 +357,39 @@ export default {
                 passwordInput.placeholder = "کلمه عبور فعلی"
             }            
         },
-        editNormalField(fieldInputId, fieldName){
+        editNormalField(fieldInputId, fieldName, errorSpanId){
             var fieldInput = document.getElementById(fieldInputId)
-            
+            var errorField = document
+                        .getElementById(errorSpanId)
+            errorField.style.display = 'none'
+
             if(this.doingEdit[fieldName]){
                 // gather info and create proper data
                 var newFieldData = fieldInput.value
+
+                // validation
+                if(fieldName === 'email'){
+                    if(!this.validateEmail(newFieldData)){
+                        errorField.style.display = 'inline'
+                        errorField.innerHTML = 'ایمیل وارد شده صحیح نیست'
+                        return
+                    }
+                }
+                else if(fieldName === 'nationalID') {
+                    if(!this.checkCodeMeli(newFieldData)){
+                        errorField.style.display = 'inline'
+                        errorField.innerHTML = 'شماره ملی وارد شده صحیح نیست'
+                        return
+                    }
+                }
+                else if(fieldName === 'phone'){
+                    if(!this.validatePhone(newFieldData)){
+                        errorField.style.display = 'inline'
+                        errorField.innerHTML = 'شماره وارد شده صحیح نیست'
+                        return
+                    }
+                }
+
                 var data = new FormData();
                 data.append(fieldName, newFieldData)
                         
@@ -373,6 +404,7 @@ export default {
                     }
                 }
                 ).then(response => {
+                    console.log(response)
                     // seccess
                     this.profileDetail[fieldName] = newFieldData
                     // update store state
@@ -390,9 +422,41 @@ export default {
                 this.doingEdit[fieldName] = false
             }
             else {
+                // close other fields if they are open
+                this.doingEdit = {
+                    password: false,
+                    email: false,
+                    phone: false,
+                    nationalID: false,
+                    studentID: false,
+                    avatar_url: false
+                }
                 // enable field input
                 this.doingEdit[fieldName] = true
             }
+        },
+        checkCodeMeli(code) {
+            var L=code.length;
+
+            if(L<8 || parseInt(code,10)==0) return false;
+            code=('0000'+code).substr(L+4-10);
+            if(parseInt(code.substr(3,6),10)==0) return false;
+            var c=parseInt(code.substr(9,1),10);
+            var s=0;
+            for(var i=0;i<9;i++)
+                s+=parseInt(code.substr(i,1),10)*(10-i);
+            s=s%11;
+            return (s<2 && c==s) || (s>=2 && c==(11-s));
+            return true;
+        },
+        validateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+            return re.test(String(email).toLowerCase())
+        },
+        validatePhone(phone) {
+            var re = /^09(0[1-2]|1[0-9]|3[0-9]|2[0-1])-?[0-9]{3}-?[0-9]{4}$/
+            return re.test(String(phone))
         }
     },
     computed: {
@@ -436,6 +500,7 @@ export default {
         font-size: 1.1rem;
         text-align: center;
         direction: rtl;
+        display: none
     }
     .nice-input:disabled{
         background-color: gray;
