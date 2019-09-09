@@ -328,6 +328,20 @@ export default {
   color: var(--lightest);
 }
 
+@media screen and (max-width: 580px) {
+  .header-info h1 {
+    font-size: 2.5rem;
+  }
+
+  .header-info p {
+    font-size: 1.3rem;
+  }
+
+  .header-info-a {
+    padding: 5px !important;
+  }
+}
+
 @media screen and (max-width: 765px) {
   .nav {
     flex-wrap: wrap;
