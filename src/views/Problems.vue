@@ -75,10 +75,12 @@ export default {
     methods: {
         ...mapActions(['getProblems']),
         nextPage(){
-            this.page++
+            if ((this.page +1)*5 + 1 < this.problems.length)
+                this.page++
         },
         pervPage(){
-            this.page--
+            if(this.page > 1)
+                this.page--
         },
         problemLink(id){
             return `/problem/${id}`
