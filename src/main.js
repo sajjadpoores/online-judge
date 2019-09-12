@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import Multiselect from 'vue-multiselect'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faUser,
@@ -23,6 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueCookie from 'vue-cookie'
 
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
+
 Vue.use(VuePersianDatetimePicker, {
   name: 'custom-date-picker',
   props: {
@@ -56,6 +58,8 @@ library.add(faUserPlus)
 library.add(faCode)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+// register multiselect
+Vue.component('multiselect', Multiselect)
 
 Vue.config.productionTip = false
 new Vue({
