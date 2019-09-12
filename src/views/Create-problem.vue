@@ -8,52 +8,52 @@
       <div class="problem-container">
         <div class="psection ptitle">
           <label>عنوان</label>
-          <input type="text" id="titleInput">
+          <input type="text" id="titleInput" required>
         </div>
 
         <div class="psection ptime">
           <label>محدودیت زمان (ثانیه)</label>
-          <input type="number" id="timeInput" value="10">
+          <input type="number" id="timeInput" value="10" required>
         </div>
 
         <div class="psection pmemory">
           <label>محدودیت حافظه</label>
-          <input type="number" id="memoryInput" value="1">
+          <input type="number" id="memoryInput" value="1" required>
         </div>
 
         <div class="psection poutput">
           <label>محدودیت خروجی</label>
-          <input type="number" id="outputInput" value="400">
+          <input type="number" id="outputInput" value="400" required>
         </div>
 
         <div class="psection ptext">
           <label>متن سوال</label>
-          <textarea type="text" rows="15" id="contentTextarea"></textarea>
+          <textarea required type="text" rows="15" id="contentTextarea"></textarea>
         </div>
 
         <div class="psection ptext">
           <label>ورودی</label>
-          <textarea type="text" rows="5" id="inputTextarea"></textarea>
+          <textarea required type="text" rows="5" id="inputTextarea"></textarea>
         </div>
 
         <div class="psection ptext">
           <label>خروجی</label>
-          <textarea type="text" rows="5" id="outputTextarea"></textarea>
+          <textarea required type="text" rows="5" id="outputTextarea"></textarea>
         </div>
 
         <div class="psection ptext">
           <label>نمونه ورودی</label>
-          <textarea type="text" rows="5" id="inputExampleTextarea"></textarea>
+          <textarea required type="text" rows="5" id="inputExampleTextarea"></textarea>
         </div>
 
         <div class="psection ptext">
           <label>نمونه خروجی</label>
-          <textarea type="text" rows="5" id="outputExampleTextarea"></textarea>
+          <textarea required type="text" rows="5" id="outputExampleTextarea"></textarea>
         </div>
 
         <div class="psection ptestcase">
           <label>فایل تست کیس ها</label>
-          <input type="file" id="testcaseInput" value="400">
+          <input required type="file" id="testcaseInput" value="400">
         </div>
 
         <div class="psection psubmit">
