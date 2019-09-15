@@ -86,7 +86,7 @@
             <a href="#" id="registerBtn" class="nav-item" @click="rbtnClick" v-if="!$cookie.get('auth')">ثبت نام</a>
             <a href="#" @click="lbtnClick" id="loginBtn" class="nav-item" v-if="!$cookie.get('auth')">ورود</a>
             <a href="/problems/all" v-if="$cookie.get('auth')" class="nav-item">سوالات</a>
-            <a href="/contests" v-if="$cookie.get('auth')" class="nav-item">مسابقات</a>
+            <a href="/contests/all" v-if="$cookie.get('auth')" class="nav-item">مسابقات</a>
             <a href="#" @click="logout" class="nav-item" v-if="$cookie.get('auth')">خروج</a>
         </nav>
       <!-- End of nav -->

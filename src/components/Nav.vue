@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="full-width-on-mobile nav-item">
-                  <router-link to="/contests">مسابقات</router-link>
+                  <router-link to="/contests/all">مسابقات</router-link>
                 </div>
 
                 <div class="nav-item rightside-menu-btn" >
@@ -102,7 +102,7 @@
             </div>
 
             <div class="mnav-item">
-                <router-link to="/contests">مسابقات</router-link>
+                <router-link to="/contests/all">مسابقات</router-link>
             </div>
         </nav>
         <!-- end of mobile nav -->

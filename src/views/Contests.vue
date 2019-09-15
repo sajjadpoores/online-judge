@@ -37,112 +37,12 @@
                 <router-link :to="contestLink(contest.contestID)"> {{ contest.name }}</router-link>
             </span>
 
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
+            <span class="p-wide-item" style="direction: ltr">
+            {{ contest.start_time }}
             </span>
 
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="user-plus"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-item">
-            <a href="#">مقدماتی جام جهانی</a></span
-            >
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
-            </span>
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="user-plus"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-item">
-            <a href="#">مقدماتی جام جهانی</a></span
-            >
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
-            </span>
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="user-plus"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-item">
-            <a href="#">مقدماتی جام جهانی</a></span
-            >
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
-            </span>
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="user-plus"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-item">
-            <a href="#">مقدماتی جام جهانی</a></span
-            >
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
-            </span>
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="user-plus"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
-
-            <span class="p-item">
-            <a href="#">مقدماتی جام جهانی</a></span
-            >
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
-            </span>
-
-            <span class="p-wide-item">
-            ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
+            <span class="p-wide-item" style="direction: ltr">
+            {{ contest.end_time }}
             </span>
 
             <span class="p-thin-item">
@@ -152,21 +52,17 @@
 
         <div class="p-row pagination-container">
             <div class="pagination-btns-container">
-                <div class="pagination-btn pagination-arrow">
+                <div class="pagination-btn pagination-arrow" :class="[(page + 1) * 5 + 1 > contests.length ? 'disabled': '']" @click="nextPage">
                     <font-awesome-icon icon="angle-right"></font-awesome-icon>
                 </div>
 
-                <div class="pagination-btn selected-number">1</div>
-                <div class="pagination-btn">2</div>
-                <div class="pagination-btn">3</div>
-                <div class="pagination-btn">...</div>
-                <div class="pagination-btn">21</div>
-                <div class="pagination-btn pagination-arrow">
+                <div class="pagination-btn selected-number">{{ page | plus_one }}</div>
+                <div class="pagination-btn pagination-arrow" @click="pervPage" :class="{disabled: page === 0}">
                     <font-awesome-icon icon="angle-left"></font-awesome-icon>
                 </div>
             </div>
-            <p class="pagination-info">۲۰ از ۴۲۰ سوال</p>
         </div>
+
     </div>
     <!-- end of contests table body -->      
   </div>
@@ -174,6 +70,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import moment from 'moment-jalaali';
 export default {
     name: "contests",
     data() {
@@ -193,7 +90,18 @@ export default {
                 this.local_contests = this.contests.slice(this.page*5, this.page*5+5)
             else if(this.type === 'user')
                 this.local_contests = this.myContests.slice(this.page*5, this.page*5+5)
-                
+            
+            this.local_contests.forEach(element => {
+                // convert start_time from georgian to shamsi
+                var start_time = element.start_time.replace('+', ' ')
+                var start_time = moment(start_time, 'YYYY-MM-DDTHH:mm:ss 04:30').format('jYYYY/jMM/jDD HH:mm:ss')
+                element.start_time = start_time
+
+                // convert end_time from georgian to shamsi
+                var end_time = element.end_time.replace('+', ' ')
+                var end_time = moment(end_time, 'YYYY-MM-DDTHH:mm:ss 04:30').format('jYYYY/jMM/jDD HH:mm:ss')
+                element.end_time = end_time
+            });
             return this.local_contests
         }
     },
@@ -217,12 +125,10 @@ export default {
     
         if(this.type === 'all')
             this.getContests()
-        else{
+        else {
             var jwt = this.$cookie.get('auth')
             this.getContests('user')
         }
-
-        console.log(this.local_contests)
     },
     filters: {
         plus_one(index){
@@ -362,6 +268,18 @@ export default {
     background-color: white;
     color: var(--greenest);
     cursor: default;
+}
+
+.disabled{
+    background-color: gray;
+    cursor: default;
+    color: white
+}
+
+.disabled:hover {
+    background-color: gray;
+    cursor: default;
+    color: white
 }
 /* end of pagination */
 
