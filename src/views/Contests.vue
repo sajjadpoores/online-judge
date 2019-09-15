@@ -37,7 +37,7 @@
                 <router-link :to="contestLink(contest.contestID)"> {{ contest.name }}</router-link>
             </span>
 
-            <span class="p-wide-item" style="direction: ltr">
+            <span class="p-wide-item" style="direction: ltr" @click="getContestInfo(contest.contestID)">
             {{ contest.start_time }}
             </span>
 
@@ -46,7 +46,9 @@
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon icon="user-plus"></font-awesome-icon>
+                <font-awesome-icon v-if="!userIsJoined(contest.contestID)" @click="joinContest(contest.contestID)" icon="user-plus"></font-awesome-icon>
+
+                <font-awesome-icon v-if="userIsJoined(contest.contestID)" @click="joinContest(contest.contestID)" icon="user-minus"></font-awesome-icon>
             </span>
         </div>
 
@@ -70,13 +72,15 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import moment from 'moment-jalaali';
+import moment from 'moment-jalaali'
+import axios from 'axios'
 export default {
     name: "contests",
     data() {
         return {
             page: 0,
             local_contests: [],
+            joined_contests: [],
             has_next: true
         }
     },
@@ -84,7 +88,7 @@ export default {
         type: String
     },
     computed: {
-        ...mapState(['contests', 'myContests']),
+        ...mapState(['backendUrl', 'profileDetail', 'contests', 'myContests']),
         computeIndex() {
             if(this.type === 'all')
                 this.local_contests = this.contests.slice(this.page*5, this.page*5+5)
@@ -115,8 +119,44 @@ export default {
             if(this.page > 1)
                 this.page--
         },
-        contestLink(id){
+        contestLink(id) {
             return `/contest/${id}`
+        },
+        joinContest(id) {
+            var jwt = this.$cookie.get('auth')
+
+            axios.post(this.backendUrl + '/contest/' + id, {}, {
+              headers: {
+                Authorization: jwt
+              }
+            }).then(response => {
+                console.log(response)
+
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        getContestInfo(id) {
+            var jwt = this.$cookie.get('auth')
+
+            axios.get(this.backendUrl + '/contest/' + id, {
+              headers: {
+                Authorization: jwt
+              }
+            }).then(response => {
+                var contest_info = response.data.body
+                console.log(contest_info)
+                if(contest_info.participant.includes(this.profileDetail.username)){
+                    this.joined_contests.push(contest_info.contestID)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        userIsJoined(id) {
+            if (this.joined_contests.includes(id))
+                return true
+            return false
         }
     },
     mounted() {
@@ -137,12 +177,24 @@ export default {
         getIndexByPage(index, page){
             return page*5 + index + 1
         }
+    },
+    watch: {
+        local_contests: function() {
+            // after local_contests are loaded get info of them
+            this.local_contests.forEach(contest => {
+                this.getContestInfo(contest.contestID)
+            })
+        }
     }
 }
 </script>
 
 <style scoped>
 /* font-awesome styling */
+.fa-user-minus {
+    color: red;
+    cursor: pointer;
+}
 .fa-user-plus {
     color: var(--greenest);
     cursor: pointer;

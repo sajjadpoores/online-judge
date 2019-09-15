@@ -7,6 +7,8 @@ import Multiselect from 'vue-multiselect'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faUser,
+  faUserPlus,
+  faUserMinus,
   faLock,
   faEnvelope,
   faCaretDown,
@@ -16,7 +18,6 @@ import {
   faTimes,
   faAngleLeft,
   faAngleRight,
-  faUserPlus,
   faCode
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -55,6 +56,7 @@ library.add(faTimes)
 library.add(faAngleLeft)
 library.add(faAngleRight)
 library.add(faUserPlus)
+library.add(faUserMinus)
 library.add(faCode)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
