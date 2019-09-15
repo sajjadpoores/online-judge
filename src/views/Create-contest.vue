@@ -70,6 +70,8 @@
 import moment from 'moment-jalaali';
 import { mapActions, mapState } from 'vuex'
 import axios from 'axios'
+import router from '@/router.js'
+
 export default {
     name: "createContest",
     data() {
@@ -112,7 +114,7 @@ export default {
 
             var data = {
               name,
-              penalty_time: penalty_time.toString(),
+              penalty_time: parseInt(penalty_time),
               start_time,
               end_time,
               problem
@@ -124,7 +126,7 @@ export default {
                 Authorization: jwt
               }
             }).then(response => {
-              console.log(response)
+              router.push({ name: 'contests', params: {type: 'all' }})
             }).catch(error => {
               console.log(error.response)
             })

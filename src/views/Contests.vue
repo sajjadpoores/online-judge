@@ -30,12 +30,12 @@
 
     <!-- contests table body -->
     <div class="p-body">
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
+        <div class="p-row" v-for="(contest, index) in computeIndex" :key="contest.contestID">
+            <span class="p-thin-item">{{ index | getIndexByPage(page) }}</span>
 
             <span class="p-item">
-            <a href="#">مقدماتی جام جهانی</a></span
-            >
+                <router-link :to="contestLink(contest.contestID)"> {{ contest.name }}</router-link>
+            </span>
 
             <span class="p-wide-item">
             ۱۳ فروردین ۱۳۹۲ ساعت ۱۲:۲۲
@@ -173,8 +173,65 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
     name: "contests",
+    data() {
+        return {
+            page: 0,
+            local_contests: [],
+            has_next: true
+        }
+    },
+    props: {
+        type: String
+    },
+    computed: {
+        ...mapState(['contests', 'myContests']),
+        computeIndex() {
+            if(this.type === 'all')
+                this.local_contests = this.contests.slice(this.page*5, this.page*5+5)
+            else if(this.type === 'user')
+                this.local_contests = this.myContests.slice(this.page*5, this.page*5+5)
+                
+            return this.local_contests
+        }
+    },
+    methods: {
+        ...mapActions(['getContests']),
+        nextPage(){
+            if ((this.page +1)*5 + 1 < this.local_contests.length)
+                this.page++
+        },
+        pervPage(){
+            if(this.page > 1)
+                this.page--
+        },
+        contestLink(id){
+            return `/contest/${id}`
+        }
+    },
+    mounted() {
+        if(this.type === undefined)
+        this.type = 'all'
+    
+        if(this.type === 'all')
+            this.getContests()
+        else{
+            var jwt = this.$cookie.get('auth')
+            this.getContests('user')
+        }
+
+        console.log(this.local_contests)
+    },
+    filters: {
+        plus_one(index){
+            return index + 1
+        },
+        getIndexByPage(index, page){
+            return page*5 + index + 1
+        }
+    }
 }
 </script>
 

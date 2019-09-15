@@ -15,7 +15,10 @@ export default new Vuex.Store({
       studentID: null,
       avatar_url: null
     },
-    problems: []
+    problems: [],
+    myProblems: [],
+    contests: [],
+    myContests: []
   },
   mutations: {
     updateProfile (state, profile) {
@@ -24,6 +27,17 @@ export default new Vuex.Store({
     updateProblems (state, problems) {
       state.problems = problems
       return state.problems
+    },
+    updateMyProblems (state, problems) {
+      state.myProblems = problems
+      return state.myProblems
+    },
+    updateContests (state, contests) {
+      state.contests = contests
+      return state.contests
+    },
+    updateMyContests (state, contests) {
+      state.myContests = contests
     }
   },
   actions: {
@@ -62,8 +76,8 @@ export default new Vuex.Store({
           })
           .then(response => {
             var problems = response.data.body
-            console.log(response)
-            return commit('updateProblems', problems)
+            // console.log(response)
+            return commit('updateMyProblems', problems)
           })
           .catch(error => {
             // redirect home in case user is unathorized
@@ -78,6 +92,43 @@ export default new Vuex.Store({
           .then(response => {
             var problems = response.data.body
             return commit('updateProblems', problems)
+          })
+          .catch(error => {
+            // redirect home in case user is unathorized
+            if (error.response.status === 401) {
+              this.$router.push({ name: 'home' })
+            }
+            console.log(error.response)
+          })
+      }
+    },
+    getContests ({ commit }, type = 'all') {
+      if (type === 'user') {
+        var jwt = Vue.cookie.get('auth')
+        return axios
+          .get(this.state.backendUrl + '/contest', {
+            headers: {
+              Authorization: jwt
+            }
+          })
+          .then(response => {
+            var contests = response.data.body
+            // console.log(response)
+            return commit('updateMyContests', contests)
+          })
+          .catch(error => {
+            // redirect home in case user is unathorized
+            // if (error.response.status === 401) {
+            //   this.$router.push({ name: 'home' })
+            // }
+            console.log(error.response)
+          })
+      } else {
+        return axios
+          .get(this.state.backendUrl + '/contest/all')
+          .then(response => {
+            var contests = response.data.body
+            return commit('updateContests', contests)
           })
           .catch(error => {
             // redirect home in case user is unathorized

@@ -64,9 +64,10 @@ const router = new Router({
               component: SubmitHistory
             },
             {
-              path: '/contests',
+              path: '/contests/:type',
               name: 'contests',
-              component: Contests
+              component: Contests,
+              props: true
             },
             {
               path: '/contest/:cid',

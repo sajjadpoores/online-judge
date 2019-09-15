@@ -66,16 +66,20 @@ export default {
         type: String
     },
     computed: {
-        ...mapState(['problems']),
+        ...mapState(['problems', 'myProblems']),
         computeIndex(){
-            this.local_problems = this.problems.slice(this.page*5, this.page*5+5)
+            if(this.type === 'all')
+                this.local_problems = this.problems.slice(this.page*5, this.page*5+5)
+            else if(this.type === 'user')
+                this.local_problems = this.myProblems.slice(this.page*5, this.page*5+5)
+                
             return this.local_problems
         }
     },
     methods: {
         ...mapActions(['getProblems']),
         nextPage(){
-            if ((this.page +1)*5 + 1 < this.problems.length)
+            if ((this.page +1)*5 + 1 < this.local_problems.length)
                 this.page++
         },
         pervPage(){
