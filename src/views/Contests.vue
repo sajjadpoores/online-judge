@@ -38,11 +38,11 @@
             </span>
 
             <span class="p-wide-item">
-            {{ contest.start_time }}
+            {{ contest.start_time_shamsi }}
             </span>
 
             <span class="p-wide-item" >
-            {{ contest.end_time }}
+            {{ contest.end_time_shamsi }}
             </span>
 
             <span class="p-thin-item">
@@ -94,26 +94,6 @@ export default {
                 this.local_contests = this.contests.slice(this.page*5, this.page*5+5)
             else if(this.type === 'user')
                 this.local_contests = this.myContests.slice(this.page*5, this.page*5+5)
-            
-            this.local_contests.forEach(element => {
-                // convert start_time from georgian to shamsi
-                var start_time = element.start_time.replace('+', ' ')
-                var start_time_moment = moment(start_time, 'YYYY-MM-DDTHH:mm:ss 04:30')
-                var start_time = start_time_moment.locale('fa').format('LLLL')
-                element.start_time = start_time
-                
-                // convert end_time from georgian to shamsi
-                var end_time = element.end_time.replace('+', ' ')
-                var end_time_moment = moment(end_time, 'YYYY-MM-DDTHH:mm:ss 04:30')
-                var end_time = end_time_moment.locale('fa').format('LLLL')
-                element.end_time = end_time
-
-                // findout if contest is finished
-                if(end_time_moment.format('x') < moment().format('x'))
-                    element.is_finished = true
-                else
-                    element.is_finished = false
-            });
 
             // console.log(this.local_contests)
             return this.local_contests
@@ -204,9 +184,29 @@ export default {
     },
     watch: {
         local_contests: function() {
-            // after local_contests are loaded get info of them
-            this.local_contests.forEach(contest => {
-                this.getContestInfo(contest.contestID)
+            this.local_contests.forEach(element => {
+                // convert start_time from georgian to shamsi
+                var start_time = element.start_time.replace('+', ' ')
+                var start_time_moment = moment(start_time, 'YYYY-MM-DDTHH:mm:ss 04:30')
+                
+                var start_time = start_time_moment.locale('fa').format('LLLL')
+                element.start_time_shamsi = start_time
+                
+                // convert end_time from georgian to shamsi
+                var end_time = element.end_time.replace('+', ' ')
+                var end_time_moment = moment(end_time, 'YYYY-MM-DDTHH:mm:ss 04:30')
+                var end_time = end_time_moment.locale('fa').format('LLLL')
+                element.end_time_shamsi = end_time
+
+                // findout if contest is finished
+                if(end_time_moment.format('x') < moment().format('x'))
+                    element.is_finished = true
+                else
+                    element.is_finished = false
+
+
+                // after local_contests are loaded get info of them
+                this.getContestInfo(element.contestID)
             })
         }
     }
