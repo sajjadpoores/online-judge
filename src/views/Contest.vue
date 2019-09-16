@@ -16,8 +16,12 @@
             زمان باقی مانده
         </span>
 
-        <span class="p-item">
+        <span class="p-item" v-if="!is_finished && profileDetail.username != contest_info.author">
             انصراف
+        </span>
+
+        <span class="p-item" v-if="profileDetail.username === contest_info.author">
+            حذف
         </span>
     </div>
     <!-- end of contest info table head -->
@@ -33,8 +37,12 @@
               {{ time_status }}
             </span>
 
-            <span class="p-item">
-              <font-awesome-icon class="red" icon="sign-out-alt" @click="leaveContest"></font-awesome-icon>
+            <span class="p-item" v-if="!is_finished && profileDetail.username != contest_info.author">
+              <font-awesome-icon icon="sign-out-alt" @click="leaveContest"></font-awesome-icon>
+            </span>
+
+            <span class="p-item" v-if="profileDetail.username === contest_info.author && contest_info && profileDetail">
+              <font-awesome-icon icon="trash" @click="deleteContest"></font-awesome-icon>
             </span>
         </div>
     </div>
@@ -158,7 +166,8 @@ export default {
         return {
             contest_info: {},
             local_problems: [],
-            time_status: 0
+            time_status: 0,
+            is_finished: false
         }
     },
     methods: {
@@ -186,6 +195,21 @@ export default {
                 console.log(error)
             })
         },
+        deleteContest() {
+            var cid = this.$route.params.cid
+            var jwt = this.$cookie.get('auth')
+
+            axios.delete(this.backendUrl + '/contest' + cid, {}, {
+                headers: {
+                    Authorization: jwt
+                }
+            }).then(response => {
+                router.push({name: 'contests', params: {type: 'all'}})
+
+            }).catch(error => {
+                console.log(error)
+            })
+        },
         countTimeStatus() {
             // if contest_info end time moment and start time moment are loaded
             if(this.contest_info.end_time_moment && this.contest_info.start_time_moment) {
@@ -200,6 +224,7 @@ export default {
                 }
                 else {
                     this.time_status = 'زمان کانتست به پایان رسیده است'
+                    this.is_finished = true
                     return
                 }
             }
@@ -208,7 +233,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['backendUrl', 'problems']),
+        ...mapState(['backendUrl', 'problems', 'profileDetail']),
     },
     mounted() {
         var jwt = this.$cookie.get('auth')
@@ -235,6 +260,7 @@ export default {
             this.contest_info.end_time_shamsi = end_time
             this.contest_info.end_time_moment = end_time_moment
 
+            // set interval to run countTimeStatus method every second
             window.setInterval(this.countTimeStatus, 1000)
 
         }).catch(error => {
@@ -258,6 +284,11 @@ export default {
 
 <style scoped>
 /* font-awesome styling */
+.fa-trash {
+    color: tomato;
+    cursor: pointer;
+}
+
 .fa-sign-out-alt {
     color: red;
     font-size: 1.4rem;
