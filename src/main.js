@@ -18,7 +18,8 @@ import {
   faTimes,
   faAngleLeft,
   faAngleRight,
-  faCode
+  faCode,
+  faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -58,6 +59,7 @@ library.add(faAngleRight)
 library.add(faUserPlus)
 library.add(faUserMinus)
 library.add(faCode)
+library.add(faSignOutAlt)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 // register multiselect

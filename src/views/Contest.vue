@@ -15,6 +15,10 @@
         <span class="p-item">
             زمان باقی مانده
         </span>
+
+        <span class="p-item">
+            انصراف
+        </span>
     </div>
     <!-- end of contest info table head -->
 
@@ -22,11 +26,15 @@
     <div class="p-body">
         <div class="p-row">
             <span class="p-wide-item">
-              ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
+              {{ contest_info.start_time_shamsi }}
             </span>
 
             <span class="p-item">
-              ۰۱:۲۲:۰۹
+              {{ time_status }}
+            </span>
+
+            <span class="p-item">
+              <font-awesome-icon class="red" icon="sign-out-alt" @click="leaveContest"></font-awesome-icon>
             </span>
         </div>
     </div>
@@ -113,7 +121,7 @@
             >
 
             <span class="p-thin-item">
-                <font-awesome-icon icon=""></font-awesome-icon>
+                <!-- <font-awesome-icon icon=""></font-awesome-icon> -->
             </span>
 
             <span class="p-thin-item">
@@ -142,12 +150,15 @@
 <script>
 import axios from 'axios'
 import { mapState, mapActions } from 'vuex'
+import router from '@/router.js'
+import moment from 'moment-jalaali'
 export default {
     name: "contest",
     data() {
         return {
             contest_info: {},
-            local_problems: []
+            local_problems: [],
+            time_status: 0
         }
     },
     methods: {
@@ -159,33 +170,87 @@ export default {
                     break;
                 }
             }
+        },
+        leaveContest(){
+            var cid = this.$route.params.cid
+            var jwt = this.$cookie.get('auth')
+
+            axios.patch(this.backendUrl + '/contest/' + cid, {}, {
+                headers: {
+                    Authorization: jwt
+                }
+            }).then(response => {
+                router.push({name: 'contests', params: {type: 'all'}})
+
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        countTimeStatus() {
+            // if contest_info end time moment and start time moment are loaded
+            if(this.contest_info.end_time_moment && this.contest_info.start_time_moment) {
+                if (this.contest_info.end_time_moment.format('x') > moment().locale('fa').format('x')) {
+                    var duration = moment.duration(this.contest_info.end_time_moment.diff(moment().locale('fa')))
+                    var seconds = duration.asSeconds()%60
+                    var mins = duration.asMinutes()%60
+                    var hours = duration.asHours()%24
+                    var days = duration.asDays()
+                    this.time_status = parseInt(days) + 'روز و ' + parseInt(hours)+ ':' + parseInt(mins) + ':' + parseInt(seconds)
+                    return
+                }
+                else {
+                    this.time_status = 'زمان کانتست به پایان رسیده است'
+                    return
+                }
+            }
+            this.time_status = 0
+            return 
         }
     },
     computed: {
-        ...mapState(['backendUrl', 'problems'])
+        ...mapState(['backendUrl', 'problems']),
     },
     mounted() {
         var jwt = this.$cookie.get('auth')
 
         axios.get(this.backendUrl + '/contest/' + this.$route.params.cid, {
             headers: {
-            Authorization: jwt
+                Authorization: jwt
             }
         }).then(response => {
             // success
             this.contest_info = response.data.body
+
+            // get start time and convert it
+            var start_time = this.contest_info.start_time.replace('+', ' ')
+            var start_time_moment = moment(start_time, 'YYYY-MM-DDTHH:mm:ss 04:30')
+            var start_time = start_time_moment.locale('fa').format('LLLL')
+            this.contest_info.start_time_shamsi = start_time
+            this.contest_info.start_time_moment = start_time_moment
+
+            // convert end_time from georgian to shamsi
+            var end_time = this.contest_info.end_time.replace('+', ' ')
+            var end_time_moment = moment(end_time, 'YYYY-MM-DDTHH:mm:ss 04:30')
+            var end_time = end_time_moment.locale('fa').format('LLLL')
+            this.contest_info.end_time_shamsi = end_time
+            this.contest_info.end_time_moment = end_time_moment
+
+            window.setInterval(this.countTimeStatus, 1000)
+
         }).catch(error => {
             // fail
-            console.log(error.response)
+            console.log(error)
         })
     },
     watch: {
         contest_info: function() {
-            this.getProblems().then(done => {
-                this.contest_info.problem.forEach(element => {
-                    this.findProblemFromProblems(element.id)
+            if(this.contest_info.problem) {
+                this.getProblems().then(done => {
+                    this.contest_info.problem.forEach(element => {
+                        this.findProblemFromProblems(element.id)
+                    })
                 })
-            })
+            }
         }
     }
 }
@@ -193,6 +258,13 @@ export default {
 
 <style scoped>
 /* font-awesome styling */
+.fa-sign-out-alt {
+    color: red;
+    font-size: 1.4rem;
+    transform: scaleX(-1);
+    cursor: pointer;
+}
+
 .fa-check {
   color: var(--greenest);
 }
@@ -324,6 +396,7 @@ export default {
     color: var(--greenest);
     cursor: default;
 }
+
 /* end of pagination */
 
 /* end of contest */
