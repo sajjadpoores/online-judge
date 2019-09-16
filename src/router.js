@@ -14,6 +14,7 @@ import Contests from './views/Contests.vue'
 import Contest from './views/Contest.vue'
 import Scoreboard from './views/Scoreboard.vue'
 import createContest from './views/Create-contest.vue'
+import ContestProblem from './views/Contest-problem.vue'
 import Test from './views/Test.vue'
 import store from './store'
 
@@ -74,6 +75,12 @@ const router = new Router({
               path: '/contest/:cid',
               name: 'contest',
               component: Contest
+            },
+            {
+              path: '/contest/:cid/problem/:pid',
+              name: 'contest',
+              component: ContestProblem,
+              props: true
             },
             {
               path: '/contest/:cid/scoreboard',

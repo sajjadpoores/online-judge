@@ -96,63 +96,15 @@
 
     <!-- contest table body -->
     <div class="p-body">
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
+        <div class="p-row" v-for="(problem, index) in computeIndex" :key="problem.problemID">
+            <span class="p-thin-item">{{ index | getIndexByPage(page) }}</span>
 
             <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
+                <router-link :to="problemLink(problem.problemID)"> {{ problem.name }}</router-link>
+            </span>
 
             <span class="p-thin-item">
                 <font-awesome-icon icon="check"></font-awesome-icon>
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="angle-left"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">2</span>
-
-            <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="check"></font-awesome-icon>
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="angle-left"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">3</span>
-
-            <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="times"></font-awesome-icon>
-            </span>
-
-            <span class="p-thin-item">
-                <font-awesome-icon icon="angle-left"></font-awesome-icon>
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">4</span>
-
-            <span class="p-wide-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
-
-            <span class="p-thin-item">
-                <!-- <font-awesome-icon icon=""></font-awesome-icon> -->
             </span>
 
             <span class="p-thin-item">
@@ -162,16 +114,15 @@
 
         <div class="p-row pagination-container">
             <div class="pagination-btns-container">
-                <div class="pagination-btn pagination-arrow">
+                <div class="pagination-btn pagination-arrow" :class="[(page + 1) * 5 + 1 > local_problems.length ? 'disabled': '']" @click="nextPage">
                     <font-awesome-icon icon="angle-right"></font-awesome-icon>
                 </div>
 
-                <div class="pagination-btn selected-number">1</div>
-                <div class="pagination-btn pagination-arrow">
+                <div class="pagination-btn selected-number">{{ page | plus_one }}</div>
+                <div class="pagination-btn pagination-arrow" @click="pervPage" :class="{disabled: page === 0}">
                     <font-awesome-icon icon="angle-left"></font-awesome-icon>
                 </div>
             </div>
-            <p class="pagination-info">4 از 4 سوال</p>
         </div>
     </div>
     <!-- end of contest table body -->
@@ -189,15 +140,17 @@ export default {
         return {
             contest_info: {},
             local_problems: [],
+            parted_local_problems: [],
             time_status: 0,
-            is_finished: false
+            is_finished: false,
+            page: 0
         }
     },
     methods: {
         ...mapActions(['getProblems']),
         findProblemFromProblems(id){
             for(var i=0; i< this.problems.length; i++){
-                if(this.problems[i].problemID === id){
+                if(this.problems[i].problemID === id) {
                     this.local_problems.push(this.problems[i])
                     break;
                 }
@@ -262,10 +215,35 @@ export default {
         getScoreBaordLink(){
             var cid = this.$route.params.cid
             return '/contest/' + cid + '/scoreboard'
+        },
+        nextPage(){
+            if ((this.page +1)*5 + 1 <= this.local_problems.length)
+                this.page++
+        },
+        pervPage(){
+            if(this.page >= 1)
+                this.page--
+        },
+        problemLink(id){
+            var cid = this.$route.params.cid
+            return `/contest/${cid}/problem/${id}`
+        },
+    },
+    filters: {
+        plus_one(index){
+            return index + 1
+        },
+        getIndexByPage(index, page){
+            return page * 5 + index + 1
         }
     },
     computed: {
         ...mapState(['backendUrl', 'problems', 'profileDetail']),
+        computeIndex(){
+            this.parted_local_problems = this.local_problems.slice(this.page*5, this.page*5+5)
+            
+            return this.parted_local_problems
+        }
     },
     mounted() {
         var jwt = this.$cookie.get('auth')
@@ -430,7 +408,6 @@ export default {
 }
 
 .pagination-btns-container {
-    flex-basis: 65%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -460,6 +437,17 @@ export default {
     cursor: default;
 }
 
+.disabled{
+    background-color: gray;
+    cursor: default;
+    color: white
+}
+
+.disabled:hover {
+    background-color: gray;
+    cursor: default;
+    color: white
+}
 /* end of pagination */
 
 /* end of contest */
