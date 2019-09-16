@@ -102,11 +102,11 @@ export default {
     methods: {
         ...mapActions(['getContests']),
         nextPage(){
-            if ((this.page +1)*5 + 1 < this.local_contests.length)
+            if ((this.page +1)*5 + 1 <= this.local_contests.length)
                 this.page++
         },
         pervPage(){
-            if(this.page > 1)
+            if(this.page >= 1)
                 this.page--
         },
         contestLink(id) {
