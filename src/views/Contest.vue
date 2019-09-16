@@ -183,7 +183,7 @@ export default {
         leaveContest(){
             var cid = this.$route.params.cid
             var jwt = this.$cookie.get('auth')
-
+            
             axios.patch(this.backendUrl + '/contest/' + cid, {}, {
                 headers: {
                     Authorization: jwt
@@ -199,7 +199,7 @@ export default {
             var cid = this.$route.params.cid
             var jwt = this.$cookie.get('auth')
 
-            axios.delete(this.backendUrl + '/contest' + cid, {}, {
+            axios.delete(this.backendUrl + '/contest/' + cid, {
                 headers: {
                     Authorization: jwt
                 }
@@ -213,7 +213,12 @@ export default {
         countTimeStatus() {
             // if contest_info end time moment and start time moment are loaded
             if(this.contest_info.end_time_moment && this.contest_info.start_time_moment) {
-                if (this.contest_info.end_time_moment.format('x') > moment().locale('fa').format('x')) {
+                
+                if(this.contest_info.start_time_moment.format('x') > moment().locale('fa').format('x')){
+                    this.time_status = 'کانتست شروع نشده است'
+                    return
+                }
+                else if (this.contest_info.end_time_moment.format('x') > moment().locale('fa').format('x')) {
                     var duration = moment.duration(this.contest_info.end_time_moment.diff(moment().locale('fa')))
                     var seconds = duration.asSeconds()%60
                     var mins = duration.asMinutes()%60
