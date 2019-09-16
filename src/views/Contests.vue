@@ -316,7 +316,6 @@ export default {
 }
 
 .pagination-btns-container {
-    flex-basis: 65%;
     display: flex;
     justify-content: flex-end;
     align-items: center;

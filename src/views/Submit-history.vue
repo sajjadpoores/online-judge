@@ -12,7 +12,7 @@
         </span>
 
         <span class="p-item">
-          عنوان
+          سوال
         </span>
 
         <span class="p-thin-item">
@@ -27,82 +27,33 @@
 
     <!-- submit-history table body -->
     <div class="p-body">
-        <div class="p-row">
-            <span class="p-thin-item">1</span>
+        <div class="p-row" v-for="(submission, index) in true_submissions" :key="submission.submissionID">
+            <span class="p-thin-item">{{ index | getIndexByPage(page) }}</span>
 
             <span class="p-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
+            <a :href="problemLink(submission.problemID)">{{ submission.problem_info.name }}</a></span
             >
 
-            <span class="p-thin-item wrong-answer">
-                غلط
+            <span :class="['p-thin-item', 'wrong-answer']">
+                {{ submission.result.judgement_status }}
             </span>
 
             <span class="p-item">
-                ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">2</span>
-
-            <span class="p-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
-
-            <span class="p-thin-item accepted">
-                درست
-            </span>
-
-            <span class="p-item">
-                ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">3</span>
-
-            <span class="p-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
-
-            <span class="p-thin-item compile-error">
-                خطا کامپایلر
-            </span>
-
-            <span class="p-item">
-                ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
-            </span>
-        </div>
-
-        <div class="p-row">
-            <span class="p-thin-item">4</span>
-
-            <span class="p-item">
-            <a href="#">چه کسی پنیر مرا برداشته</a></span
-            >
-
-            <span class="p-thin-item wrong-answer">
-                غلط
-            </span>
-
-            <span class="p-item">
-                ۱۳ فروردین ۱۳۹۲ ساعت ۲۲:۴۰
+                {{ submission.sent_time }}
             </span>
         </div>
 
         <div class="p-row pagination-container">
             <div class="pagination-btns-container">
-                <div class="pagination-btn pagination-arrow">
+                <div class="pagination-btn pagination-arrow" :class="[(page +1)*5 + 1 > problems.length ? 'disabled': '']" @click="nextPage">
                     <font-awesome-icon icon="angle-right"></font-awesome-icon>
                 </div>
 
-                <div class="pagination-btn selected-number">1</div>
-                <div class="pagination-btn pagination-arrow">
+                <div class="pagination-btn selected-number">{{ page | plus_one }}</div>
+                <div class="pagination-btn pagination-arrow" @click="pervPage" :class="{disabled: page === 0}">
                     <font-awesome-icon icon="angle-left"></font-awesome-icon>
                 </div>
             </div>
-            <p class="pagination-info">4 از 4 سوال</p>
         </div>
     </div>
     <!-- end of submit-history table body -->
@@ -110,8 +61,100 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { mapState, mapActions } from 'vuex'
+import moment from 'moment-jalaali'
 export default {
-    name: "submit-history"
+    name: "submit-history",
+    data() {
+      return {
+        submissions: [],
+        true_submissions: [],
+        page: 0,
+      }
+    },
+    methods: {
+      ...mapActions(['getProblems']),
+      getSubmissionResult(submission) {
+        var jwt = this.$cookie.get('auth')
+
+        axios.get(this.backendUrl + '/problem/' + submission.problemID + '/submissions/' + submission.submissionID, {
+          headers: {
+            Authorization: jwt
+          }
+        }).then(response => {
+          submission.result = response.data
+          var problem = this.problems.find(obj => {
+            return obj.problemID === submission.problemID
+          })
+
+          if(problem)
+            submission.problem_info = problem
+
+          // convert the submission datetime to persian
+          var sent_moment = moment(submission.second, 'YYYY-MM-DD-HH-mm-ss')
+          var sent_time = sent_moment.locale('fa').format('LLLL')
+          submission.sent_time = sent_time
+
+          this.true_submissions.push(submission)
+        }).catch(error => {
+          // console.log(error.response)
+        })
+      },
+      resultLabel(result) {
+        if(result.judgement_status === 'WA')
+          return 'wrong-answer'
+        else if(result.judgement_status === 'CE')
+          return 'compile-error'
+        else if(result.judgement_status === 'AC')
+          return 'accepted'
+      },
+      nextPage(){
+          if ((this.page +1)*5 + 1 < this.true_submissions.length)
+              this.page++
+      },
+      pervPage(){
+          if(this.page > 1)
+              this.page--
+      },
+      problemLink(id){
+          return `/problem/${id}`
+      }
+    },
+    computed: {
+      ...mapState(['backendUrl', 'problems'])
+    },
+    filters: {
+      plus_one(index){
+          return index + 1
+      },
+      getIndexByPage(index, page){
+          return page*5 + index + 1
+      }
+    },
+    mounted() {
+      var jwt = this.$cookie.get('auth')
+      axios.get(this.backendUrl + '/user/submission/individual', {
+        headers: {
+          Authorization: jwt
+        }
+      }).then(response => {
+        this.submissions = response.data
+      }).catch(error => {
+        // console.log(error.response)
+      })
+    },
+    watch: {
+      submissions: function() {
+        // get all problems
+        this.getProblems().then(done => {
+          // get submissions results
+          this.submissions.forEach(element => {
+              this.getSubmissionResult(element)
+          })
+        })
+      }
+    }
 }
 </script>
 
@@ -215,7 +258,6 @@ export default {
 }
 
 .pagination-btns-container {
-    flex-basis: 65%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -243,6 +285,18 @@ export default {
     background-color: white;
     color: var(--greenest);
     cursor: default !important;
+}
+
+.disabled{
+    background-color: gray;
+    cursor: default;
+    color: white
+}
+
+.disabled:hover {
+    background-color: gray;
+    cursor: default;
+    color: white
 }
 /* end of pagination */
 
