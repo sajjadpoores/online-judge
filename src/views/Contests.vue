@@ -48,7 +48,7 @@
             <span class="p-thin-item">
                 <font-awesome-icon v-if="!contest.is_finished && !userIsJoined(contest.contestID)" @click="joinContest(contest.contestID)" icon="user-plus"></font-awesome-icon>
 
-                <font-awesome-icon v-if="!contest.is_finished && userIsJoined(contest.contestID)" @click="joinContest(contest.contestID)" icon="user-minus"></font-awesome-icon>
+                <font-awesome-icon v-if="!contest.is_finished && userIsJoined(contest.contestID)" @click="leaveContest(contest.contestID)" icon="user-minus"></font-awesome-icon>
             </span>
         </div>
 
@@ -132,6 +132,20 @@ export default {
         contestLink(id) {
             return `/contest/${id}`
         },
+        leaveContest(id) {
+            var jwt = this.$cookie.get('auth')
+
+            axios.patch(this.backendUrl + '/contest/' + id, {}, {headers: {
+                Authorization: jwt
+            }}).then(response => {
+                var index = this.joined_contests.indexOf(id)
+                if (index !== -1)
+                    this.joined_contests.splice(index, 1)
+
+            }).catch(error => {
+                console.log(error)
+            })
+        },
         joinContest(id) {
             var jwt = this.$cookie.get('auth')
 
@@ -140,7 +154,7 @@ export default {
                 Authorization: jwt
               }
             }).then(response => {
-                console.log(response)
+                this.joined_contests.push(id)
 
             }).catch(error => {
                 console.log(error)
