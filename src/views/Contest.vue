@@ -48,8 +48,31 @@
     </div>
     <!-- end of contest table body -->
 
+    <!-- contest options table head -->
+    <div class="p-head">
+        <span class="p-wide-item">
+            اسکوربورد
+        </span>
 
+        <span class="p-wide-item">
+            ارسال ها
+        </span>
+    </div>
+    <!-- end of contest options table head -->
 
+    <!-- contest options table body -->
+    <div class="p-body">
+        <div class="p-row">
+            <span class="p-wide-item">
+              <a :href="getScoreBaordLink()" target="_blank">مشاهده</a>
+            </span>
+
+            <span class="p-wide-item">
+              <a :href="getScoreBaordLink()" target="_blank">مشاهده</a>
+            </span>
+        </div>
+    </div>
+    <!-- end of contest table body -->
 
     <!-- contest table head -->
     <div class="p-head">
@@ -235,6 +258,10 @@ export default {
             }
             this.time_status = 0
             return 
+        },
+        getScoreBaordLink(){
+            var cid = this.$route.params.cid
+            return '/contest/' + cid + '/scoreboard'
         }
     },
     computed: {

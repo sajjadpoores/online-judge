@@ -36,7 +36,7 @@
 
         <div class="p-row pagination-container">
             <div class="pagination-btns-container">
-                <div class="pagination-btn pagination-arrow" :class="[(page +1)*5 + 1 > problems.length ? 'disabled': '']" @click="nextPage">
+                <div class="pagination-btn pagination-arrow" :class="[(page + 1) * 5 + 1 > problems.length ? 'disabled': '']" @click="nextPage">
                     <font-awesome-icon icon="angle-right"></font-awesome-icon>
                 </div>
 
@@ -72,18 +72,18 @@ export default {
                 this.local_problems = this.problems.slice(this.page*5, this.page*5+5)
             else if(this.type === 'user')
                 this.local_problems = this.myProblems.slice(this.page*5, this.page*5+5)
-                
+            
             return this.local_problems
         }
     },
     methods: {
         ...mapActions(['getProblems']),
         nextPage(){
-            if ((this.page +1)*5 + 1 < this.local_problems.length)
+            if ((this.page +1)*5 + 1 <= this.problems.length)
                 this.page++
         },
         pervPage(){
-            if(this.page > 1)
+            if(this.page >= 1)
                 this.page--
         },
         problemLink(id){

@@ -12,6 +12,7 @@ import CreateProblem from './views/Create-problem.vue'
 import SubmitHistory from './views/Submit-history.vue'
 import Contests from './views/Contests.vue'
 import Contest from './views/Contest.vue'
+import Scoreboard from './views/Scoreboard.vue'
 import createContest from './views/Create-contest.vue'
 import Test from './views/Test.vue'
 import store from './store'
@@ -73,6 +74,11 @@ const router = new Router({
               path: '/contest/:cid',
               name: 'contest',
               component: Contest
+            },
+            {
+              path: '/contest/:cid/scoreboard',
+              name: 'contest',
+              component: Scoreboard
             },
             {
               path: '/create/contest',

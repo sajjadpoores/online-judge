@@ -27,14 +27,14 @@
 
     <!-- submit-history table body -->
     <div class="p-body">
-        <div class="p-row" v-for="(submission, index) in true_submissions" :key="submission.submissionID">
+        <div class="p-row" v-for="(submission, index) in computeIndex" :key="submission.submissionID">
             <span class="p-thin-item">{{ index | getIndexByPage(page) }}</span>
 
             <span class="p-item">
             <a :href="problemLink(submission.problemID)">{{ submission.problem_info.name }}</a></span
             >
 
-            <span :class="['p-thin-item', 'wrong-answer']">
+            <span :class="['p-thin-item', resultLabel(submission.result)]">
                 {{ submission.result.judgement_status }}
             </span>
 
@@ -45,7 +45,7 @@
 
         <div class="p-row pagination-container">
             <div class="pagination-btns-container">
-                <div class="pagination-btn pagination-arrow" :class="[(page +1)*5 + 1 > problems.length ? 'disabled': '']" @click="nextPage">
+                <div class="pagination-btn pagination-arrow" :class="[(page + 1) * 5 + 1 > true_submissions.length ? 'disabled': '']" @click="nextPage">
                     <font-awesome-icon icon="angle-right"></font-awesome-icon>
                 </div>
 
@@ -70,6 +70,7 @@ export default {
       return {
         submissions: [],
         true_submissions: [],
+        parted_submissions: [],
         page: 0,
       }
     },
@@ -77,7 +78,6 @@ export default {
       ...mapActions(['getProblems']),
       getSubmissionResult(submission) {
         var jwt = this.$cookie.get('auth')
-
         axios.get(this.backendUrl + '/problem/' + submission.problemID + '/submissions/' + submission.submissionID, {
           headers: {
             Authorization: jwt
@@ -110,11 +110,11 @@ export default {
           return 'accepted'
       },
       nextPage(){
-          if ((this.page +1)*5 + 1 < this.true_submissions.length)
-              this.page++
+        if ((this.page + 1) * 5 + 1 <= this.true_submissions.length)
+          this.page++
       },
       pervPage(){
-          if(this.page > 1)
+          if(this.page >= 1)
               this.page--
       },
       problemLink(id){
@@ -122,7 +122,11 @@ export default {
       }
     },
     computed: {
-      ...mapState(['backendUrl', 'problems'])
+      ...mapState(['backendUrl', 'problems']),
+      computeIndex() {
+          this.parted_submissions = this.true_submissions.slice(this.page*5, this.page*5+5)
+          return this.parted_submissions
+      }
     },
     filters: {
       plus_one(index){
