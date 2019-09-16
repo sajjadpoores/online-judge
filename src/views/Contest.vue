@@ -140,8 +140,54 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { mapState, mapActions } from 'vuex'
 export default {
-    name: "contest"
+    name: "contest",
+    data() {
+        return {
+            contest_info: {},
+            local_problems: []
+        }
+    },
+    methods: {
+        ...mapActions(['getProblems']),
+        findProblemFromProblems(id){
+            for(var i=0; i< this.problems.length; i++){
+                if(this.problems[i].problemID === id){
+                    this.local_problems.push(this.problems[i])
+                    break;
+                }
+            }
+        }
+    },
+    computed: {
+        ...mapState(['backendUrl', 'problems'])
+    },
+    mounted() {
+        var jwt = this.$cookie.get('auth')
+
+        axios.get(this.backendUrl + '/contest/' + this.$route.params.cid, {
+            headers: {
+            Authorization: jwt
+            }
+        }).then(response => {
+            // success
+            this.contest_info = response.data.body
+        }).catch(error => {
+            // fail
+            console.log(error.response)
+        })
+    },
+    watch: {
+        contest_info: function() {
+            this.getProblems().then(done => {
+                this.contest_info.problem.forEach(element => {
+                    this.findProblemFromProblems(element.id)
+                })
+            })
+        }
+    }
 }
 </script>
 

@@ -34,21 +34,21 @@
             <span class="p-thin-item">{{ index | getIndexByPage(page) }}</span>
 
             <span class="p-item">
-                <router-link :to="contestLink(contest.contestID)"> {{ contest.name }}</router-link>
+                <router-link :to="contestLink(contest.contestID)"> {{ contest.name }}tempname</router-link>
             </span>
 
-            <span class="p-wide-item" style="direction: ltr" @click="getContestInfo(contest.contestID)">
+            <span class="p-wide-item">
             {{ contest.start_time }}
             </span>
 
-            <span class="p-wide-item" style="direction: ltr">
+            <span class="p-wide-item" >
             {{ contest.end_time }}
             </span>
 
             <span class="p-thin-item">
-                <font-awesome-icon v-if="!userIsJoined(contest.contestID)" @click="joinContest(contest.contestID)" icon="user-plus"></font-awesome-icon>
+                <font-awesome-icon v-if="!contest.is_finished && !userIsJoined(contest.contestID)" @click="joinContest(contest.contestID)" icon="user-plus"></font-awesome-icon>
 
-                <font-awesome-icon v-if="userIsJoined(contest.contestID)" @click="joinContest(contest.contestID)" icon="user-minus"></font-awesome-icon>
+                <font-awesome-icon v-if="!contest.is_finished && userIsJoined(contest.contestID)" @click="joinContest(contest.contestID)" icon="user-minus"></font-awesome-icon>
             </span>
         </div>
 
@@ -98,14 +98,24 @@ export default {
             this.local_contests.forEach(element => {
                 // convert start_time from georgian to shamsi
                 var start_time = element.start_time.replace('+', ' ')
-                var start_time = moment(start_time, 'YYYY-MM-DDTHH:mm:ss 04:30').format('jYYYY/jMM/jDD HH:mm:ss')
+                var start_time_moment = moment(start_time, 'YYYY-MM-DDTHH:mm:ss 04:30')
+                var start_time = start_time_moment.locale('fa').format('LLLL')
                 element.start_time = start_time
-
+                
                 // convert end_time from georgian to shamsi
                 var end_time = element.end_time.replace('+', ' ')
-                var end_time = moment(end_time, 'YYYY-MM-DDTHH:mm:ss 04:30').format('jYYYY/jMM/jDD HH:mm:ss')
+                var end_time_moment = moment(end_time, 'YYYY-MM-DDTHH:mm:ss 04:30')
+                var end_time = end_time_moment.locale('fa').format('LLLL')
                 element.end_time = end_time
+
+                // findout if contest is finished
+                if(end_time_moment.format('x') < moment().format('x'))
+                    element.is_finished = true
+                else
+                    element.is_finished = false
             });
+
+            // console.log(this.local_contests)
             return this.local_contests
         }
     },
@@ -145,7 +155,7 @@ export default {
               }
             }).then(response => {
                 var contest_info = response.data.body
-                console.log(contest_info)
+                // console.log(contest_info)
                 if(contest_info.participant.includes(this.profileDetail.username)){
                     this.joined_contests.push(contest_info.contestID)
                 }
