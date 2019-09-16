@@ -34,7 +34,7 @@
             <span class="p-thin-item">{{ index | getIndexByPage(page) }}</span>
 
             <span class="p-item">
-                <router-link :to="contestLink(contest.contestID)"> {{ contest.name }}tempname</router-link>
+                <router-link :class="{ 'disabled-linkl': !userIsJoined(contest.contestID)}" :to="contestLink(contest.contestID)"> {{ contest.name }}tempname</router-link>
             </span>
 
             <span class="p-wide-item">
@@ -345,6 +345,9 @@ export default {
     cursor: default;
 }
 
+.disabled-linkl {
+    pointer-events: none;
+}
 .disabled{
     background-color: gray;
     cursor: default;
